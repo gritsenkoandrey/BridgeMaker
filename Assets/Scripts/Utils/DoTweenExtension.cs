@@ -4,7 +4,7 @@ namespace Utils
 {
     public static class DoTweenExtension
     {
-        public static void KillTween(Tweener tween)
+        public static void KillTween(this Tweener tween)
         {
             if (tween is { active: true })
             {
@@ -12,7 +12,7 @@ namespace Utils
             }
         }
         
-        public static void KillTween(Sequence sequence)
+        public static void KillTween(this Sequence sequence)
         {
             if (sequence is { active: true })
             {
@@ -20,7 +20,7 @@ namespace Utils
             }
         }
         
-        public static Sequence RefreshSequence(Sequence sequence)
+        public static Sequence RefreshSequence(this Sequence sequence)
         {
             if (sequence is { active: true })
             {

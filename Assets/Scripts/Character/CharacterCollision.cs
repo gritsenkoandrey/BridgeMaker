@@ -11,66 +11,58 @@ namespace Character
 {
     public sealed class CharacterCollision : MonoBehaviour
     {
-        private MGame _game;
+        private MWorld _world;
         
         [SerializeField] private Collider _collider;
         [SerializeField] private Transform _root;
 
         private void OnEnable()
         {
-            _game = APPCore.Instance.game;
+            _world = APPCore.Instance.world;
         }
 
         private void Start()
         {
             _collider
                 .OnTriggerEnterAsObservable()
-                .Where(col => col.gameObject.layer == Layers.Item)
-                .Subscribe(c =>
+                .Where(c => c.gameObject.layer == Layers.Item)
+                .Subscribe(col =>
                 {
-                    Item item = c.GetComponent<Item>();
+                    Item item = _world.ItemsColliders
+                        .FirstOrDefault(i => i.gameObject.Equals(col.gameObject));
                     
                     if (!item) return;
 
-                    item.OnPick.Execute(_root);
+                    item.onPick.Execute(_root);
                 })
                 .AddTo(this);
             
             _collider
                 .OnTriggerEnterAsObservable()
-                .Where(col => col.gameObject.layer == Layers.Collector)
-                .Subscribe(c =>
+                .Where(c => c.gameObject.layer == Layers.Collector)
+                .Subscribe(col =>
                 {
-                    Collector collector = c.GetComponent<Collector>();
-
-                    Color color = Color.white;
+                    Collector collector = _world.CollectorsColliders
+                            .FirstOrDefault(c => c.gameObject.Equals(col.gameObject));
                     
                     if (!collector) return;
 
-                    int count = _game.Items.Count;
+                    int count = _world.CharacterItems.Count;
                     
                     if (count == 0) return;
 
-                    int cur = collector.steps.Count - collector.index;
+                    int current = collector.steps.Count - collector.index.Value;
 
-                    if (count > cur)
+                    if (count > current)
                     {
-                        count = cur;
+                        count = current;
                     }
 
                     for (int i = 0; i < count; i++)
                     {
-                        Item item = _game.Items.Last();
+                        Item item = _world.CharacterItems.Last();
 
-                        item.OnMove.Execute(collector);
-
-                        color = item.GetRenderer.material.color;
-                    }
-
-                    if (collector.steps.Count == collector.index)
-                    {
-                        collector.gameObject.layer = Layers.Deactivate;
-                        collector.OnPaintRoad.Execute(color);
+                        item.onMove.Execute(collector);
                     }
                 })
                 .AddTo(this);

@@ -9,14 +9,18 @@ namespace Character
     public sealed class CharacterMovement : MonoBehaviour
     {
         [SerializeField] private CharacterController _characterController;
+        [SerializeField] private float _speed;
 
         private MInput _input;
-
+        private MGame _game;
+        
         private readonly ReactiveCommand<Vector2> _onMove = new ReactiveCommand<Vector2>();
+        private readonly CompositeDisposable _moveDisposable = new CompositeDisposable();
 
         private void OnEnable()
         {
             _input = APPCore.Instance.input;
+            _game = APPCore.Instance.game;
         }
 
         private void Start()
@@ -25,26 +29,37 @@ namespace Character
 
             Transform character = gameObject.transform;
             float gravity = Physics.gravity.y * 10f;
-            float speed = 5f;
 
-            _input.OnJoystickStart
-                .Subscribe(vector =>
+            _game.OnRoundStart
+                .Subscribe(_ =>
                 {
-                    input = Vector2.zero;
+                    _input.OnJoystickStart
+                        .Subscribe(vector =>
+                        {
+                            input = Vector2.zero;
+                        })
+                        .AddTo(this);
+
+                    _input.OnJoystickHold
+                        .Subscribe(vector =>
+                        {
+                            input = vector;
+                        })
+                        .AddTo(this);
+
+                    _input.OnJoystickEnd
+                        .Subscribe(vector =>
+                        {
+                            input = Vector2.zero;
+                        })
+                        .AddTo(this);
                 })
                 .AddTo(this);
 
-            _input.OnJoystickHold
-                .Subscribe(vector =>
+            _game.OnRoundEnd
+                .Subscribe(_ =>
                 {
-                    input = vector;
-                })
-                .AddTo(this);
-
-            _input.OnJoystickEnd
-                .Subscribe(vector =>
-                {
-                    input = Vector2.zero;
+                    _moveDisposable.Clear();
                 })
                 .AddTo(this);
 
@@ -56,9 +71,10 @@ namespace Character
                     if (vector.magnitude > 0.1f)
                     {
                         move = new Vector3(vector.x, 0f, vector.y);
+                        
                         character.forward = move;
 
-                        Vector3 next = character.position + move * speed * Time.deltaTime;
+                        Vector3 next = character.position + move * _speed * Time.deltaTime;
 
                         Ray ray = new Ray { origin = next, direction = Vector3.down };
                         
@@ -67,7 +83,7 @@ namespace Character
 
                     move.y = _characterController.isGrounded ? 0f : gravity;
 
-                    _characterController.Move(move * speed * Time.deltaTime);
+                    _characterController.Move(move * _speed * Time.deltaTime);
                 })
                 .AddTo(this);
 
@@ -77,6 +93,7 @@ namespace Character
                 {
                     _onMove.Execute(input);
                 })
+                .AddTo(_moveDisposable)
                 .AddTo(this);
         }
     }

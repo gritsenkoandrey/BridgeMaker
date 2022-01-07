@@ -35,7 +35,6 @@ namespace Managers
                     {
                         _inputDisposable.Clear();
                     }
-
                 })
                 .AddTo(this);
         }

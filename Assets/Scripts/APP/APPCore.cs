@@ -10,5 +10,10 @@ namespace APP
         public MWorld world;
         public MCamera mainCamera;
         public MLight directionLight;
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
     }
 }

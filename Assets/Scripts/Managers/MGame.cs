@@ -1,11 +1,11 @@
-﻿using Environment;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 
 namespace Managers
 {
     public sealed class MGame : MonoBehaviour
     {
-        public readonly ReactiveCollection<Item> Items = new ReactiveCollection<Item>();
+        public readonly ReactiveCommand OnRoundStart = new ReactiveCommand();
+        public readonly ReactiveCommand OnRoundEnd = new ReactiveCommand();
     }
 }
