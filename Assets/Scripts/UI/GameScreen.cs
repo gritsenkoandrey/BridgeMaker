@@ -1,7 +1,7 @@
-﻿using APP;
-using DG.Tweening;
-using Managers;
+﻿using DG.Tweening;
 using TMPro;
+using UI.Enum;
+using UI.Factory;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,59 +9,30 @@ using Utils;
 
 namespace UI
 {
-    public sealed class GameScreen : MonoBehaviour
+    public sealed class GameScreen : BaseScreen
     {
-        [SerializeField] private TextMeshProUGUI _text;
-        
-        [SerializeField] private Button _startButton;
-        [SerializeField] private Button _endButton;
         [SerializeField] private Button _restartButton;
+        [SerializeField] private TextMeshProUGUI _countItemsText;
 
-        [SerializeField] private CanvasGroup _startGame;
-        [SerializeField] private CanvasGroup _endGame;
-        [SerializeField] private CanvasGroup _fade;
-
-        private MGame _game;
-        private MWorld _world;
-
-        private Tweener _tween;
-
-        private void OnEnable()
+        protected override void Subscribe()
         {
-            _game = APPCore.Instance.game;
-            _world = APPCore.Instance.world;
+            int max = world.ItemsColliders.Count;
+            int cur = 0;
+
+            _countItemsText.text = $"{cur}/{max}";
+            _countItemsText.transform.localScale = Vector3.zero;
+            _countItemsText.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack);
             
-            _startButton
-                .OnClickAsObservable()
-                .Subscribe(_ =>
-                {
-                    _game.OnRoundStart.Execute();
-
-                    SetActiveStartElement(false, 0f);
-                    
-                    _tween.Pause();
-                })
-                .AddTo(this);
-
-            _endButton
-                .OnClickAsObservable()
-                .Subscribe(_ =>
-                {
-                    SetActiveCanvasGroup(_startGame, true, 1f);
-                    SetActiveCanvasGroup(_endGame, false, 0f);
-
-                    SetActiveStartElement(true, 1f);
-
-                    GUIFade();
-
-                    _tween.Play();
-
-                    _world.InstantiateLevel(true);
-                })
-                .AddTo(this);
-
+            _restartButton.transform.localScale = Vector3.zero;
+            _restartButton.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack);
+            
             _restartButton
                 .OnClickAsObservable()
+                .First()
                 .Subscribe(_ =>
                 {
                     _restartButton.transform
@@ -69,76 +40,48 @@ namespace UI
                         .SetEase(Ease.InBack)
                         .OnComplete(() =>
                         {
-                            SetActiveStartElement(true, 1f);
+                            world.InstantiateLevel();
                             
-                            GUIFade();
-
-                            _tween.Play();
-
-                            _world.InstantiateLevel();
+                            ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
 
                             _restartButton.transform
                                 .DOScale(Vector3.one, 0.5f)
                                 .SetEase(Ease.OutBack);
                         });
                 })
-                .AddTo(this);
+                .AddTo(screenDisposable);
 
-            _game.OnRoundEnd
+            world.ItemsColliders
+                .ObserveRemove()
                 .Subscribe(_ =>
                 {
-                    DOVirtual.DelayedCall(2.5f, () =>
-                    {
-                        SetActiveCanvasGroup(_startGame, false, 0f);
-                        SetActiveCanvasGroup(_endGame, true, 1f);
-                    });
+                    cur++;
+                    
+                    _countItemsText.text = $"{cur}/{max}";
+                    
+                    tween.KillTween();
+
+                    tween = _countItemsText
+                        .DOScale(1.25f, 0.2f)
+                        .SetEase(Ease.Linear)
+                        .SetLoops(2, LoopType.Yoyo);
                 })
-                .AddTo(this);
+                .AddTo(screenDisposable);
         }
 
-        private void OnDisable()
+        protected override void Unsubscribe()
         {
-            _tween.KillTween();
+            screenDisposable.Clear();
         }
 
-        private void Start()
+        public override void Show()
         {
-            Init();
+            gameObject.SetActive(true);
         }
 
-        private void Init()
+        public override void Hide()
         {
-            SetActiveCanvasGroup(_startGame, true, 1f);
-            SetActiveCanvasGroup(_endGame, false, 0f);
-
-            _fade.alpha = 0f;
-
-            _tween = _text
-                .DOScale(1.25f, 0.5f)
-                .SetEase(Ease.Linear)
-                .SetLoops(-1, LoopType.Yoyo);
-        }
-
-        private void GUIFade()
-        {
-            _fade.alpha = 1f;
-            
-            _fade
-                .DOFade(0f, 1f)
-                .SetEase(Ease.Linear);
-        }
-
-        private void SetActiveStartElement(bool value, float alpha)
-        {
-            _startButton.gameObject.SetActive(value);
-            _text.DOFade(alpha, 0.25f).SetEase(Ease.Linear);
-        }
-
-        private static void SetActiveCanvasGroup(CanvasGroup canvasGroup, bool value, float alpha)
-        {
-            canvasGroup.alpha = alpha;
-            canvasGroup.interactable = value;
-            canvasGroup.blocksRaycasts = value;
+            gameObject.SetActive(false);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Levels
                 .First()
                 .Subscribe(_ =>
                 {
-                    _game.OnRoundEnd.Execute();
+                    _game.OnRoundEnd.Execute(true);
                 })
                 .AddTo(this);
         }

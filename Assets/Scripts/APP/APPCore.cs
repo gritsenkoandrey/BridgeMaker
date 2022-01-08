@@ -10,6 +10,7 @@ namespace APP
         public MWorld world;
         public MCamera mainCamera;
         public MLight directionLight;
+        public MGUI gui;
 
         private void Awake()
         {
