@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Utils
 {
-    public class Tools
+    public class Tool
     {
         [MenuItem("Tools/Clear Prefs")]
         public static void ClearPrefs()

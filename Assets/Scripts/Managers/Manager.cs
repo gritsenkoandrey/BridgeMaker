@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Managers
 {
+    [DefaultExecutionOrder(1)]
     public abstract class Manager : MonoBehaviour
     {
         public static readonly Dictionary<Type, Manager> Container = new Dictionary<Type, Manager>();

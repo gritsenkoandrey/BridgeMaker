@@ -1,8 +1,10 @@
 ﻿using Managers;
 using Patterns.Singleton;
+using UnityEngine;
 
 namespace APP
 {
+    [DefaultExecutionOrder(100)]
     public sealed class APPCore : Singleton<APPCore>
     {
         public MInput GetInput { get; private set; }
