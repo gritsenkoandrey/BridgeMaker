@@ -2,12 +2,10 @@
 using UnityEngine;
 using Utils;
 
-namespace Character
+namespace Characters
 {
     public sealed class CharacterMovement : Character
     {
-        [SerializeField] private float _speed;
-
         protected override void Initialize()
         {
             base.Initialize();
@@ -16,6 +14,7 @@ namespace Character
             
             Vector2 i = Vector2.zero;
             float gravity = Physics.gravity.y * 10f;
+            float speed = world.CurrentLevel.Value.GetSpeed;
 
             game.OnRoundStart
                 .Subscribe(_ =>
@@ -46,7 +45,7 @@ namespace Character
 
                         character.forward = move;
 
-                        Vector3 next = character.position + move * _speed * Time.deltaTime;
+                        Vector3 next = character.position + move * speed * Time.deltaTime;
 
                         Ray ray = new Ray { origin = next, direction = Vector3.down };
 
@@ -55,7 +54,7 @@ namespace Character
 
                     move.y = characterController.isGrounded ? 0f : gravity;
 
-                    characterController.Move(move * _speed * Time.deltaTime);
+                    characterController.Move(move * speed * Time.deltaTime);
                 })
                 .AddTo(characterDisposable)
                 .AddTo(this);

@@ -4,8 +4,9 @@ using Managers;
 using UniRx;
 using UnityEngine;
 
-namespace Character
+namespace Characters
 {
+    [RequireComponent(typeof(CharacterController), typeof(Animator))]
     public abstract class Character : BaseComponent
     {
         protected Animator animator;
@@ -32,9 +33,9 @@ namespace Character
 
         protected override void Enable()
         {
-            input = APPCore.Instance.input;
-            world = APPCore.Instance.world;
-            game = APPCore.Instance.game;
+            input = APPCore.Instance.GetInput;
+            world = APPCore.Instance.GetWorld;
+            game = APPCore.Instance.GetGame;
         }
 
         protected override void Disable()

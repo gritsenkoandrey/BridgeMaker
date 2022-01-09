@@ -2,16 +2,20 @@
 using UI.Enum;
 using UI.Factory;
 using UniRx;
-using UnityEngine;
 
 namespace Managers
 {
-    public sealed class MGame : MonoBehaviour
+    public sealed class MGame : Manager
     {
         public readonly ReactiveCommand OnRoundStart = new ReactiveCommand();
         public readonly ReactiveCommand<bool> OnRoundEnd = new ReactiveCommand<bool>();
 
-        private void Start()
+        protected override void First()
+        {
+            Container.Add(typeof(MGame), this);
+        }
+
+        protected override void Init()
         {
             OnRoundEnd
                 .Subscribe(value =>

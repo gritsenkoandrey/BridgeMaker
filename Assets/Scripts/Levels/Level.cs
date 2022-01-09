@@ -1,5 +1,7 @@
 ﻿using APP;
+using Characters;
 using Cinemachine;
+using Environment;
 using Managers;
 using UniRx;
 using UnityEngine;
@@ -9,16 +11,24 @@ namespace Levels
     public sealed class Level : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
-
-        public CinemachineVirtualCamera GetCamera => _cinemachineVirtualCamera;
+        [Header("Prefabs")]
+        [SerializeField] private Character _character;
+        [SerializeField] private Item _item;
+        [Header("Character Settings")]
+        [SerializeField] private float _speed;
 
         private MGame _game;
         private MWorld _world;
 
-        private void OnEnable()
+        public CinemachineVirtualCamera GetCamera => _cinemachineVirtualCamera;
+        public Character GetCharacter => _character;
+        public Item GetItem => _item;
+        public float GetSpeed => _speed;
+
+        private void Awake()
         {
-            _game = APPCore.Instance.game;
-            _world = APPCore.Instance.world;
+            _game = APPCore.Instance.GetGame;
+            _world = APPCore.Instance.GetWorld;
         }
 
         private void Start()

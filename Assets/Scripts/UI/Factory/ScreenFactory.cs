@@ -9,7 +9,7 @@ namespace UI.Factory
 {
     public sealed class ScreenFactory
     {
-        private readonly MGUI _gui;
+        private readonly Transform _canvas;
 
         private LobbyScreen _lobbyScreen;
         private GameScreen _gameScreen;
@@ -18,7 +18,7 @@ namespace UI.Factory
 
         public ScreenFactory()
         {
-            _gui = APPCore.Instance.gui;
+            _canvas = APPCore.Instance.GetGUI.GetCanvas.transform;
         }
 
         public LobbyScreen GetLobbyScreen()
@@ -26,7 +26,7 @@ namespace UI.Factory
             if (!_lobbyScreen)
             {
                 LobbyScreen screen = CustomResources.Load<LobbyScreen>(ScreenPath.screens[ScreenType.LobbyScreen].path);
-                _lobbyScreen = Object.Instantiate(screen, _gui.GetRoot);
+                _lobbyScreen = Object.Instantiate(screen, _canvas);
             }
 
             return _lobbyScreen;
@@ -37,7 +37,7 @@ namespace UI.Factory
             if (!_gameScreen)
             {
                 GameScreen screen = CustomResources.Load<GameScreen>(ScreenPath.screens[ScreenType.GameScreen].path);
-                _gameScreen = Object.Instantiate(screen, _gui.GetRoot);
+                _gameScreen = Object.Instantiate(screen, _canvas);
             }
 
             return _gameScreen;
@@ -48,7 +48,7 @@ namespace UI.Factory
             if (!_winScreen)
             {
                 WinScreen screen = CustomResources.Load<WinScreen>(ScreenPath.screens[ScreenType.WinScreen].path);
-                _winScreen = Object.Instantiate(screen, _gui.GetRoot);
+                _winScreen = Object.Instantiate(screen, _canvas);
             }
 
             return _winScreen;
@@ -59,7 +59,7 @@ namespace UI.Factory
             if (!_loseScreen)
             {
                 LoseScreen screen = CustomResources.Load<LoseScreen>(ScreenPath.screens[ScreenType.LoseScreen].path);
-                _loseScreen = Object.Instantiate(screen, _gui.GetRoot);
+                _loseScreen = Object.Instantiate(screen, _canvas);
             }
 
             return _loseScreen;

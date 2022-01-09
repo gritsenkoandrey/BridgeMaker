@@ -5,7 +5,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using Utils;
 
-namespace Character
+namespace Characters
 {
     public sealed class CharacterCollision : Character
     {

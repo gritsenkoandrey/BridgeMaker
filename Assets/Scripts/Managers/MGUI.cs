@@ -1,21 +1,32 @@
-﻿using UI.Enum;
+﻿using AssetPath;
+using UI.Enum;
 using UI.Factory;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace Managers
 {
-    public sealed class MGUI : MonoBehaviour
+    public sealed class MGUI : Manager
     {
-        [SerializeField] private Canvas _canvas;
-        [SerializeField] private Image _fade;
+        public Canvas GetCanvas { get; private set; }
+        public Image GetImage { get; private set; }
 
-        public Transform GetRoot => _canvas.transform;
-        public Image GetFade => _fade;
-
-        private void Start()
+        protected override void First()
         {
+            Container.Add(typeof(MGUI), this);
+        }
+
+        protected override void Init()
+        {
+            InitCanvas();
+            
+            GetImage = GetCanvas.GetComponent<Image>();
+
             ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
         }
+
+        private void InitCanvas() => 
+            GetCanvas = Instantiate(CustomResources.Load<Canvas>(DataPath.paths[DataType.Canvas]), gameObject.transform);
     }
 }

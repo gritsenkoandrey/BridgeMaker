@@ -28,8 +28,8 @@ namespace UI
             _text.DOFade(0f, 0f);
             _text.DOFade(1f, 0f).SetDelay(0.25f);
             
-            gui.GetFade.DOFade(1f, 0f);
-            gui.GetFade.DOFade(0f, 0f).SetDelay(0.25f);
+            gui.GetImage.DOFade(1f, 0f);
+            gui.GetImage.DOFade(0f, 0f).SetDelay(0.25f);
 
             _startButton
                 .OnClickAsObservable()

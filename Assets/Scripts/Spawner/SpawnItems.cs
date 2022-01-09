@@ -7,21 +7,21 @@ namespace Spawner
 {
     public sealed class SpawnItems : MonoBehaviour
     {
-        private MWorld _world;
-        
         [SerializeField] private Color _color;
-        [SerializeField] private Item _item;
+        [SerializeField] private Transform _root;
+        
+        private MWorld _world;
 
-        private void OnEnable()
+        private void Awake()
         {
-            _world = APPCore.Instance.world;
+            _world = APPCore.Instance.GetWorld;
         }
 
         private void Start()
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                Item item = Instantiate(_item, transform.GetChild(i).position, Quaternion.identity, _world.CurrentLevel.Value.transform);
+                Item item = Instantiate(_world.CurrentLevel.Value.GetItem, transform.GetChild(i).position, Quaternion.identity, _root);
                 item.GetRenderer.material.color = _color;
                 
                 _world.ItemsColliders.Add(item);

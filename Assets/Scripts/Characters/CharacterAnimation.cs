@@ -2,7 +2,7 @@
 using UnityEngine;
 using Utils;
 
-namespace Character
+namespace Characters
 {
     public sealed class CharacterAnimation : Character
     {

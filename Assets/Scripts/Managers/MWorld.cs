@@ -1,15 +1,16 @@
-﻿using Environment;
+﻿using AssetPath;
+using Environment;
 using Data;
 using Levels;
 using UniRx;
 using UnityEngine;
+using Utils;
 
 namespace Managers
 {
-    public sealed class MWorld : MonoBehaviour
+    public sealed class MWorld : Manager
     {
-        [SerializeField] private LevelData levelData;
-
+        private LevelData _levelData;
         private int _index;
 
         public readonly ReactiveProperty<Level> CurrentLevel = new ReactiveProperty<Level>();
@@ -18,10 +19,17 @@ namespace Managers
         public readonly ReactiveCollection<Item> ItemsColliders = new ReactiveCollection<Item>();
         
         [HideInInspector] public ReactiveCollection<Collector> CollectorsColliders = new ReactiveCollection<Collector>();
-
-        private void Start()
+        
+        protected override void First()
         {
-            _index = PlayerPrefs.GetInt("Level", 0);
+            Container.Add(typeof(MWorld), this);
+        }
+
+        protected override void Init()
+        {
+            _index = PlayerPrefs.GetInt(U.Level, 0);
+
+            _levelData = CustomResources.Load<LevelData>(DataPath.paths[DataType.Level]);
             
             InstantiateLevel();
         }
@@ -40,17 +48,17 @@ namespace Managers
                 {
                     _index++;
 
-                    if (_index == levelData.GetLevels.Length)
+                    if (_index == _levelData.GetLevels.Length)
                     {
                         _index = 0;
                     }
 
-                    PlayerPrefs.SetInt("Level", _index);
+                    PlayerPrefs.SetInt(U.Level, _index);
                     PlayerPrefs.Save();
                 }
             }
             
-            CurrentLevel.SetValueAndForceNotify(Instantiate(levelData.GetLevels[_index], Vector3.zero, Quaternion.identity));
+            CurrentLevel.SetValueAndForceNotify(Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity));
 
             CollectorsColliders = CurrentLevel.Value.GetComponentsInChildren<Collector>().ToReactiveCollection();
         }

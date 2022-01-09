@@ -13,18 +13,17 @@ namespace Environment
         [SerializeField] private Renderer _renderer;
 
         private MWorld _world;
-
         private Sequence _sequence;
         private Tweener _tween;
+        
         public Renderer GetRenderer => _renderer;
 
         public readonly ReactiveCommand<Transform> onPick = new ReactiveCommand<Transform>();
-        public readonly ReactiveCommand<Transform> onDrop = new ReactiveCommand<Transform>();
         public readonly ReactiveCommand<Collector> onMove = new ReactiveCommand<Collector>();
 
         protected override void Enable()
         {
-            _world = APPCore.Instance.world;
+            _world = APPCore.Instance.GetWorld;
         }
 
         protected override void Disable()
@@ -63,14 +62,6 @@ namespace Environment
                         .Append(item.DOLocalJump(pos, 1.5f, 1, 0.5f))
                         .Join(item.DOLocalRotate(Vector3.zero, 0.5f))
                         .SetEase(Ease.Linear);
-                })
-                .AddTo(this);
-
-            onDrop
-                .First()
-                .Subscribe(parent =>
-                {
-
                 })
                 .AddTo(this);
             

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Managers
 {
-    public sealed class MInput : MonoBehaviour
+    public sealed class MInput : Manager
     {
         [SerializeField] private Joystick _joystick;
         
@@ -16,7 +16,12 @@ namespace Managers
 
         private readonly CompositeDisposable _inputDisposable = new CompositeDisposable();
 
-        private void OnEnable()
+        protected override void First()
+        {
+            Container.Add(typeof(MInput), this);
+        }
+
+        protected override void Enable()
         {
             IsEnable
                 .Subscribe(value =>
@@ -39,12 +44,12 @@ namespace Managers
                 .AddTo(this);
         }
 
-        private void OnDisable()
+        protected override void Disable()
         {
             _inputDisposable.Clear();
         }
-
-        private void Start()
+        
+        protected override void Init()
         {
             IsEnable.SetValueAndForceNotify(true);
         }

@@ -19,9 +19,9 @@ namespace UI
 
         private void Awake()
         {
-            gui = APPCore.Instance.gui;
-            game = APPCore.Instance.game;
-            world = APPCore.Instance.world;
+            gui = APPCore.Instance.GetGUI;
+            game = APPCore.Instance.GetGame;
+            world = APPCore.Instance.GetWorld;
         }
 
         private void OnEnable()
