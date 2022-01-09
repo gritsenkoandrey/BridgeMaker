@@ -1,4 +1,5 @@
-﻿using UI.Enum;
+﻿using DG.Tweening;
+using UI.Enum;
 using UI.Factory;
 using UniRx;
 using UnityEngine;
@@ -12,16 +13,25 @@ namespace UI
 
         protected override void Subscribe()
         {
-            _restartButton
-                .OnClickAsObservable()
-                .First()
-                .Subscribe(_ =>
-                {
-                    ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
+            _restartButton.transform.localScale = Vector3.zero;
 
-                    world.InstantiateLevel();
-                })
-                .AddTo(screenDisposable);
+            _restartButton.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() =>
+                {
+                    _restartButton
+                        .OnClickAsObservable()
+                        .First()
+                        .Subscribe(_ =>
+                        {
+                            ScreenInterface.GetScreenInterface()
+                                .Execute(ScreenType.LobbyScreen);
+
+                            world.InstantiateLevel();
+                        })
+                        .AddTo(screenDisposable);
+                });
         }
 
         protected override void Unsubscribe()

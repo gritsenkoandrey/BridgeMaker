@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using APP;
+using BaseMonoBehaviour;
 using DG.Tweening;
 using Managers;
 using UniRx;
@@ -9,7 +10,7 @@ using Utils;
 
 namespace Environment
 {
-    public sealed class Collector : MonoBehaviour
+    public sealed class Collector : BaseComponent
     {
         private MWorld _world;
         
@@ -27,17 +28,17 @@ namespace Environment
         
         private readonly ReactiveCommand<Color> _onPaintRoad = new ReactiveCommand<Color>();
 
-        private void OnEnable()
+        protected override void Enable()
         {
             _world = APPCore.Instance.world;
         }
 
-        private void OnDisable()
+        protected override void Disable()
         {
             steps.Clear();
         }
 
-        private void Start()
+        protected override void Initialize()
         {
             InitRoad();
 

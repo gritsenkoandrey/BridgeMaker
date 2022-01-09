@@ -42,7 +42,8 @@ namespace UI
                         {
                             world.InstantiateLevel();
                             
-                            ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
+                            ScreenInterface.GetScreenInterface()
+                                .Execute(ScreenType.LobbyScreen);
 
                             _restartButton.transform
                                 .DOScale(Vector3.one, 0.5f)

@@ -1,4 +1,5 @@
 ﻿using APP;
+using BaseMonoBehaviour;
 using DG.Tweening;
 using Managers;
 using UniRx;
@@ -7,7 +8,7 @@ using Utils;
 
 namespace Environment
 {
-    public sealed class Item : MonoBehaviour
+    public sealed class Item : BaseComponent
     {
         [SerializeField] private Renderer _renderer;
 
@@ -21,18 +22,18 @@ namespace Environment
         public readonly ReactiveCommand<Transform> onDrop = new ReactiveCommand<Transform>();
         public readonly ReactiveCommand<Collector> onMove = new ReactiveCommand<Collector>();
 
-        private void OnEnable()
+        protected override void Enable()
         {
             _world = APPCore.Instance.world;
         }
-        
-        private void OnDisable()
+
+        protected override void Disable()
         {
             _sequence.KillTween();
             _tween.KillTween();
         }
 
-        private void Start()
+        protected override void Initialize()
         {
             Transform item = gameObject.transform;
 

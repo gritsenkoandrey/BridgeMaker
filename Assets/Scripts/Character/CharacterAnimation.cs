@@ -1,41 +1,28 @@
-﻿using APP;
-using Managers;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 using Utils;
 
 namespace Character
 {
-    public sealed class CharacterAnimation : MonoBehaviour
+    public sealed class CharacterAnimation : Character
     {
-        [SerializeField] private Animator _animator;
-        [SerializeField] private CharacterController _characterController;
-
-        private readonly CompositeDisposable _animatorDisposable = new CompositeDisposable();
-
-        private MGame _game;
-
-        private void OnEnable()
+        protected override void Initialize()
         {
-            _game = APPCore.Instance.game;
-        }
-
-        private void Start()
-        {
+            base.Initialize();
+            
             Observable
                 .EveryUpdate()
                 .Subscribe(_ =>
                 {
-                    _animator.SetFloat(Animations.Run, _characterController.velocity.magnitude, 0.05f, Time.deltaTime);
+                    animator.SetFloat(Animations.Run, characterController.velocity.magnitude, 0.05f, Time.deltaTime);
                 })
-                .AddTo(_animatorDisposable)
+                .AddTo(characterDisposable)
                 .AddTo(this);
 
-            _game.OnRoundEnd
+            game.OnRoundEnd
                 .Subscribe(_ =>
                 {
-                    _animatorDisposable.Clear();
-                    _animator.SetTrigger(Animations.Victory);
+                    animator.SetTrigger(Animations.Victory);
                 })
                 .AddTo(this);
         }

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using BaseMonoBehaviour;
+using UnityEngine;
 
 namespace Environment
 {
-    public sealed class Step : MonoBehaviour
+    public sealed class Step : BaseComponent
     {
         [SerializeField] private Renderer _renderer;
 

@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using APP;
 using Environment;
-using Managers;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -9,26 +7,20 @@ using Utils;
 
 namespace Character
 {
-    public sealed class CharacterCollision : MonoBehaviour
+    public sealed class CharacterCollision : Character
     {
-        private MWorld _world;
-        
-        [SerializeField] private Collider _collider;
         [SerializeField] private Transform _root;
 
-        private void OnEnable()
+        protected override void Initialize()
         {
-            _world = APPCore.Instance.world;
-        }
+            base.Initialize();
 
-        private void Start()
-        {
-            _collider
+            characterController
                 .OnTriggerEnterAsObservable()
                 .Where(c => c.gameObject.layer == Layers.Item)
                 .Subscribe(col =>
                 {
-                    Item item = _world.ItemsColliders
+                    Item item = world.ItemsColliders
                         .FirstOrDefault(i => i.gameObject.Equals(col.gameObject));
                     
                     if (!item) return;
@@ -37,17 +29,17 @@ namespace Character
                 })
                 .AddTo(this);
             
-            _collider
+            characterController
                 .OnTriggerEnterAsObservable()
                 .Where(c => c.gameObject.layer == Layers.Collector)
                 .Subscribe(col =>
                 {
-                    Collector collector = _world.CollectorsColliders
-                            .FirstOrDefault(c => c.gameObject.Equals(col.gameObject));
+                    Collector collector = world.CollectorsColliders
+                        .FirstOrDefault(c => c.gameObject.Equals(col.gameObject));
                     
                     if (!collector) return;
 
-                    int count = _world.CharacterItems.Count;
+                    int count = world.CharacterItems.Count;
                     
                     if (count == 0) return;
 
@@ -60,7 +52,7 @@ namespace Character
 
                     for (int i = 0; i < count; i++)
                     {
-                        Item item = _world.CharacterItems.Last();
+                        Item item = world.CharacterItems.Last();
 
                         item.onMove.Execute(collector);
                     }

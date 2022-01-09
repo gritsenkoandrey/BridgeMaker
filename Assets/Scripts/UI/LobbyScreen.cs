@@ -38,7 +38,8 @@ namespace UI
                 {
                     game.OnRoundStart.Execute();
                     
-                    ScreenInterface.GetScreenInterface().Execute(ScreenType.GameScreen);
+                    ScreenInterface.GetScreenInterface()
+                        .Execute(ScreenType.GameScreen);
                 })
                 .AddTo(screenDisposable);
         }
