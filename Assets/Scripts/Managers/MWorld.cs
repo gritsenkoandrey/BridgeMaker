@@ -16,9 +16,9 @@ namespace Managers
         public readonly ReactiveProperty<Level> CurrentLevel = new ReactiveProperty<Level>();
         
         public readonly ReactiveCollection<Item> CharacterItems = new ReactiveCollection<Item>();
-        public readonly ReactiveCollection<Item> ItemsColliders = new ReactiveCollection<Item>();
         
-        [HideInInspector] public ReactiveCollection<Collector> CollectorsColliders = new ReactiveCollection<Collector>();
+        public readonly ReactiveCollection<Item> ItemsColliders = new ReactiveCollection<Item>();
+        public readonly ReactiveCollection<Collector> CollectorsColliders = new ReactiveCollection<Collector>();
         
         protected override void First()
         {
@@ -59,8 +59,6 @@ namespace Managers
             }
             
             CurrentLevel.SetValueAndForceNotify(Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity));
-
-            CollectorsColliders = CurrentLevel.Value.GetComponentsInChildren<Collector>().ToReactiveCollection();
         }
     }
 }

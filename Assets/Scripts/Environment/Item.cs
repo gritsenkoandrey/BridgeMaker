@@ -24,6 +24,8 @@ namespace Environment
         protected override void Enable()
         {
             _world = APPCore.Instance.GetWorld;
+            
+            _world.ItemsColliders.Add(this);
         }
 
         protected override void Disable()

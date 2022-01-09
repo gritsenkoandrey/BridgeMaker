@@ -23,8 +23,6 @@ namespace Spawner
             {
                 Item item = Instantiate(_world.CurrentLevel.Value.GetItem, transform.GetChild(i).position, Quaternion.identity, _root);
                 item.GetRenderer.material.color = _color;
-                
-                _world.ItemsColliders.Add(item);
             }
         }
 
