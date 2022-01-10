@@ -16,7 +16,7 @@ namespace UI
             _restartButton.transform.localScale = Vector3.zero;
 
             _restartButton.transform
-                .DOScale(Vector3.one, 0.5f)
+                .DOScale(Vector3.one, 1f)
                 .SetEase(Ease.OutBack)
                 .OnComplete(() =>
                 {

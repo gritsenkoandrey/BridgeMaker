@@ -36,7 +36,7 @@ namespace Environment
 
         protected override void Initialize()
         {
-            Transform item = gameObject.transform;
+            Transform item = transform;
 
             _tween = item
                 .DOMoveY(0.25f, U.Random(0.75f, 1f))
@@ -83,20 +83,15 @@ namespace Environment
                     _tween.KillTween();
 
                     _sequence
-                        .Append(item.DOMove(collector.steps[index].transform.position, offset * index))
+                        .Append(item.DOMove(collector.Steps[index].transform.position, offset * index))
                         .Join(item.DOLocalRotate(Vector3.zero, offset * index))
-                        .Join(_renderer.transform.DOScale(collector.steps[index].transform.localScale, offset * index))
+                        .Join(_renderer.transform.DOScale(collector.Steps[index].transform.localScale, offset * index))
                         .SetEase(Ease.Linear)
-                        .AppendCallback(() =>
-                        {
-                            _renderer.enabled = false;
-                            
-                            collector.onShowRoad.Execute(index);
-                        });
+                        .AppendCallback(() => collector.onShowRoad.Execute(index));
 
-                    collector.color = _renderer.material.color;
-                    
                     collector.index.Value++;
+                    
+                    collector.onPaint.Execute(_renderer.material.color);
                 })
                 .AddTo(this);
         }

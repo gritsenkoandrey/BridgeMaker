@@ -24,10 +24,7 @@ namespace Characters
             animator = GetComponent<Animator>();
             
             game.OnRoundEnd
-                .Subscribe(_ =>
-                {
-                    characterDisposable.Clear();
-                })
+                .Subscribe(_ => characterDisposable.Clear())
                 .AddTo(this);
         }
 

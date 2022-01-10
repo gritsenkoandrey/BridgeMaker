@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using APP;
+﻿using APP;
 using BaseMonoBehaviour;
 using DG.Tweening;
 using Managers;
@@ -19,11 +17,10 @@ namespace Environment
         private MWorld _world;
         
         public Transform GetItemTransform => _itemsTransform;
-
-        [HideInInspector] public List<Step> steps;
-        [HideInInspector] public Color color;
+        public Step[] Steps { get; private set; }
 
         public readonly ReactiveProperty<int> index = new ReactiveProperty<int>();
+        public readonly ReactiveCommand<Color> onPaint = new ReactiveCommand<Color>();
         public readonly ReactiveCommand<int> onShowRoad = new ReactiveCommand<int>();
 
         protected override void Enable()
@@ -33,56 +30,42 @@ namespace Environment
             _world.CollectorsColliders.Add(this);
         }
 
-        protected override void Disable()
-        {
-            steps.Clear();
-        }
-
         protected override void Initialize()
         {
-            InitRoad();
+            Steps = _stepTransform.GetComponentsInChildren<Step>();
             
             onShowRoad
                 .Subscribe(i =>
                 {
-                    steps[i].gameObject.SetActive(true);
+                    Steps[i].GetCollider.enabled = true;
+                })
+                .AddTo(this);
+
+            onPaint
+                .Where(_ => index.Value == Steps.Length)
+                .First()
+                .Subscribe(color =>
+                {
+                    const float duration = 0.25f;
+
+                    _models
+                        .ForEach(m => m.material
+                        .DOColor(color, duration)
+                        .SetEase(Ease.Linear)
+                        .SetLoops(9, LoopType.Yoyo));
                 })
                 .AddTo(this);
 
             index
-                .Where(value => value == steps.Count)
+                .Where(value => value == Steps.Length)
                 .First()
                 .Subscribe(_ =>
                 {
                     gameObject.layer = Layers.Deactivate;
                     
                     _world.CollectorsColliders.Remove(this);
-
-                    const float duration = 0.25f;
-
-                    for (int i = 0; i < _models.Length; i++)
-                    {
-                        _models[i].material
-                            .DOColor(color, duration)
-                            .SetEase(Ease.Linear)
-                            .SetLoops(9, LoopType.Yoyo);
-                    }
-
-                    for (int i = 0; i < steps.Count; i++)
-                    {
-                        steps[i].GetRenderer.material
-                            .DOColor(color, duration)
-                            .SetEase(Ease.Linear)
-                            .SetLoops(9, LoopType.Yoyo);
-                    }
                 })
                 .AddTo(this);
-        }
-
-        private void InitRoad()
-        {
-            steps = _stepTransform.GetComponentsInChildren<Step>().ToList();
-            steps.ForEach(s => s.gameObject.SetActive(false));
         }
     }
 }

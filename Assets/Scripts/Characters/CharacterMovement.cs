@@ -39,7 +39,7 @@ namespace Characters
                 {
                     Vector3 move = Vector3.zero;
 
-                    if (i.magnitude > 0.1f)
+                    if (i.magnitude > 0.05f)
                     {
                         move = new Vector3(i.x, 0f, i.y);
 

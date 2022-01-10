@@ -43,7 +43,7 @@ namespace Characters
                     
                     if (count == 0) return;
 
-                    int current = collector.steps.Count - collector.index.Value;
+                    int current = collector.Steps.Length - collector.index.Value;
 
                     if (count > current)
                     {

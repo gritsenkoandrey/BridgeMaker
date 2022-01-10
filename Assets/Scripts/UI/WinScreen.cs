@@ -16,7 +16,7 @@ namespace UI
             _nextButton.transform.localScale = Vector3.zero;
 
             _nextButton.transform
-                .DOScale(Vector3.one, 0.5f)
+                .DOScale(Vector3.one, 1f)
                 .SetEase(Ease.OutBack)
                 .OnComplete(() =>
                 {

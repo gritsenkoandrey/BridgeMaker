@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 5783854720541704413}
+  _collider: {fileID: 512011502679749369}
 --- !u!1 &174601902287469150
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,6 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 157657913991173539}
+  _collider: {fileID: 1662164788452480971}
 --- !u!1 &2341944976010195245
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 6414251753268794880}
+  _collider: {fileID: 3098244646262530439}
 --- !u!1 &2462175275813443906
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,6 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 6923271106216097106}
+  _collider: {fileID: 4126561666195495142}
 --- !u!1 &2886470991378992502
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 4708023984092087860}
+  _collider: {fileID: 8839151384206641392}
 --- !u!1 &3408032894940347073
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 3210047176660050303}
+  _collider: {fileID: 7939363004658896476}
 --- !u!1 &4367000416209380865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,7 +1322,6 @@ MonoBehaviour:
   - {fileID: 6890345777910618914}
   - {fileID: 670693723327679655}
   - {fileID: 669456105759294539}
-  steps: []
   color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7256334049976215243
 GameObject:
@@ -1427,6 +1432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 2948745015735196861}
+  _collider: {fileID: 3556753378979854685}
 --- !u!1 &7877198691361406038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,6 +1542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 8056880528422112643}
+  _collider: {fileID: 5311840875075381705}
 --- !u!1 &8684297256622211666
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,6 +1686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 1615922555317417575}
+  _collider: {fileID: 4900291808941234965}
 --- !u!1 &8919823950589669273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1869,6 +1877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 113634950813326079}
+  _collider: {fileID: 4075218106824964298}
 --- !u!1 &9092055679959090287
 GameObject:
   m_ObjectHideFlags: 0
