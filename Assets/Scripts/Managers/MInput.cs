@@ -16,9 +16,9 @@ namespace Managers
 
         private readonly CompositeDisposable _inputDisposable = new CompositeDisposable();
 
-        protected override void First()
+        protected override void Register()
         {
-            Container.Add(typeof(MInput), this);
+            RegisterManager(this);
         }
 
         protected override void Enable()
@@ -46,6 +46,7 @@ namespace Managers
 
         protected override void Disable()
         {
+            UnregisterManager(this);
             _inputDisposable.Clear();
         }
         

@@ -16,10 +16,10 @@ namespace BaseMonoBehaviour
 
         private void Start()
         {
-            Initialize();
+            Init();
         }
 
-        protected virtual void Initialize() {}
+        protected virtual void Init() {}
         protected virtual void Enable() {}
         protected virtual void Disable() {}
     }

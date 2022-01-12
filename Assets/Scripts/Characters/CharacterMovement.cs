@@ -6,9 +6,9 @@ namespace Characters
 {
     public sealed class CharacterMovement : Character
     {
-        protected override void Initialize()
+        protected override void Init()
         {
-            base.Initialize();
+            base.Init();
 
             Transform character = gameObject.transform;
             

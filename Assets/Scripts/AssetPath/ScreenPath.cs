@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UI;
 using UI.Enum;
 
 namespace AssetPath

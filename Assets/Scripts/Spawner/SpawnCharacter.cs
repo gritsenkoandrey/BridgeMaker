@@ -1,5 +1,4 @@
-﻿using APP;
-using Managers;
+﻿using Managers;
 using UnityEngine;
 
 namespace Spawner
@@ -10,7 +9,7 @@ namespace Spawner
 
         private void Awake()
         {
-            _world = APPCore.Instance.GetWorld;
+            _world = MContainer.Instance.GetWorld;
         }
 
         private void Start()

@@ -30,22 +30,8 @@ namespace Utils
         {
             return source[source.Count - 1];
         }
-        
-        public static T PopLast<T>(this IList<T> list)
-        {
-            if (list.Count == 0)
-            {
-                return default(T);
-            }
 
-            T t = list[list.Count - 1];
-
-            list.RemoveAt(list.Count - 1);
-
-            return t;
-        }
-        
-        public static T PopFirst<T>(this IList<T> list)
+        public static T GetFirstAndRemove<T>(this IList<T> list)
         {
             if (list.Count == 0)
             {
@@ -58,10 +44,25 @@ namespace Utils
 
             return t;
         }
-        
-        public static T RandomElement<T>(this IList<T> source) 
+
+        public static T GetLastAndRemove<T>(this IList<T> list)
+        {
+            if (list.Count == 0)
+            {
+                return default(T);
+            }
+
+            T t = list[list.Count - 1];
+
+            list.RemoveAt(list.Count - 1);
+
+            return t;
+        }
+
+        public static T GetRandom<T>(this IList<T> source) 
         {
             int index = UnityEngine.Random.Range(0, source.Count);
+            
             return source[index];
         }
 
@@ -73,6 +74,7 @@ namespace Utils
             }
         
             int index = UnityEngine.Random.Range(0, source.Count);
+            
             T outer = source[index];
         
             source.RemoveAt(index);

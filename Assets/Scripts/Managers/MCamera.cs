@@ -9,9 +9,14 @@ namespace Managers
         public Transform GetCameraTransform => _camera.transform;
         public Camera GetCamera => _camera;
 
-        protected override void First()
+        protected override void Register()
         {
-            Container.Add(typeof(MCamera), this);
+            RegisterManager(this);
+        }
+        
+        protected override void Disable()
+        {
+            UnregisterManager(this);
         }
     }
 }

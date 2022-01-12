@@ -1,5 +1,4 @@
-﻿using APP;
-using Characters;
+﻿using Characters;
 using Cinemachine;
 using Environment;
 using Managers;
@@ -27,8 +26,8 @@ namespace Levels
 
         private void Awake()
         {
-            _game = APPCore.Instance.GetGame;
-            _world = APPCore.Instance.GetWorld;
+            _game = MContainer.Instance.GetGame;
+            _world = MContainer.Instance.GetWorld;
         }
 
         private void Start()

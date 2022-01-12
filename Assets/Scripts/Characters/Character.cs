@@ -1,5 +1,4 @@
-﻿using APP;
-using BaseMonoBehaviour;
+﻿using BaseMonoBehaviour;
 using Managers;
 using UniRx;
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace Characters
 
         protected readonly CompositeDisposable characterDisposable = new CompositeDisposable();
 
-        protected override void Initialize()
+        protected override void Init()
         {
             characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
@@ -30,9 +29,9 @@ namespace Characters
 
         protected override void Enable()
         {
-            input = APPCore.Instance.GetInput;
-            world = APPCore.Instance.GetWorld;
-            game = APPCore.Instance.GetGame;
+            input = MContainer.Instance.GetInput;
+            world = MContainer.Instance.GetWorld;
+            game = MContainer.Instance.GetGame;
         }
 
         protected override void Disable()

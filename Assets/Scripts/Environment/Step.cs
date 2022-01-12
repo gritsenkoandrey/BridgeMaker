@@ -10,7 +10,7 @@ namespace Environment
 
         public Collider GetCollider => _collider;
 
-        protected override void Initialize()
+        protected override void Init()
         {
             _renderer.enabled = false;
             _collider.enabled = false;

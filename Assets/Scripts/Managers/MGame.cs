@@ -10,9 +10,14 @@ namespace Managers
         public readonly ReactiveCommand OnRoundStart = new ReactiveCommand();
         public readonly ReactiveCommand<bool> OnRoundEnd = new ReactiveCommand<bool>();
 
-        protected override void First()
+        protected override void Register()
         {
-            Container.Add(typeof(MGame), this);
+            RegisterManager(this);
+        }
+        
+        protected override void Disable()
+        {
+            UnregisterManager(this);
         }
 
         protected override void Init()

@@ -11,9 +11,9 @@ namespace Characters
     {
         [SerializeField] private Transform _root;
 
-        protected override void Initialize()
+        protected override void Init()
         {
-            base.Initialize();
+            base.Init();
 
             characterController
                 .OnTriggerEnterAsObservable()
@@ -39,6 +39,8 @@ namespace Characters
                     
                     if (!collector) return;
 
+                    collector.disableNeighbors.Execute();
+
                     int count = world.CharacterItems.Count;
                     
                     if (count == 0) return;
@@ -52,7 +54,7 @@ namespace Characters
 
                     for (int i = 0; i < count; i++)
                     {
-                        Item item = world.CharacterItems.Last();
+                        Item item = world.CharacterItems.GetLast();
 
                         item.onMove.Execute(collector);
                     }

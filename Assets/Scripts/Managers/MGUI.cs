@@ -12,9 +12,14 @@ namespace Managers
         public Canvas GetCanvas { get; private set; }
         public Image GetImage { get; private set; }
 
-        protected override void First()
+        protected override void Register()
         {
-            Container.Add(typeof(MGUI), this);
+           RegisterManager(this);
+        }
+        
+        protected override void Disable()
+        {
+            UnregisterManager(this);
         }
 
         protected override void Init()

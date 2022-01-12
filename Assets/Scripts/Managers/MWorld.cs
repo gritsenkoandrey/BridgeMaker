@@ -20,9 +20,9 @@ namespace Managers
         public readonly ReactiveCollection<Item> ItemsColliders = new ReactiveCollection<Item>();
         public readonly ReactiveCollection<Collector> CollectorsColliders = new ReactiveCollection<Collector>();
         
-        protected override void First()
+        protected override void Register()
         {
-            Container.Add(typeof(MWorld), this);
+            RegisterManager(this);
         }
 
         protected override void Init()
@@ -32,6 +32,11 @@ namespace Managers
             _levelData = CustomResources.Load<LevelData>(DataPath.paths[DataType.Level]);
             
             InstantiateLevel();
+        }
+
+        protected override void Disable()
+        {
+            UnregisterManager(this);
         }
 
         public void InstantiateLevel(bool win = false)

@@ -1,5 +1,4 @@
-﻿using APP;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Managers;
 using UniRx;
 using UnityEngine;
@@ -19,9 +18,9 @@ namespace UI
 
         private void Awake()
         {
-            gui = APPCore.Instance.GetGUI;
-            game = APPCore.Instance.GetGame;
-            world = APPCore.Instance.GetWorld;
+            gui = MContainer.Instance.GetGUI;
+            game = MContainer.Instance.GetGame;
+            world = MContainer.Instance.GetWorld;
         }
 
         private void OnEnable()

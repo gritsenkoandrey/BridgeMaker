@@ -1,5 +1,4 @@
-﻿using APP;
-using BaseMonoBehaviour;
+﻿using BaseMonoBehaviour;
 using DG.Tweening;
 using Managers;
 using UniRx;
@@ -23,7 +22,7 @@ namespace Environment
 
         protected override void Enable()
         {
-            _world = APPCore.Instance.GetWorld;
+            _world = MContainer.Instance.GetWorld;
             
             _world.ItemsColliders.Add(this);
         }
@@ -34,7 +33,7 @@ namespace Environment
             _tween.KillTween();
         }
 
-        protected override void Initialize()
+        protected override void Init()
         {
             Transform item = transform;
 

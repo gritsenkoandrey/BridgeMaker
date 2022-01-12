@@ -1,6 +1,4 @@
-﻿using APP;
-using AssetPath;
-using Managers;
+﻿using AssetPath;
 using UI.Enum;
 using UnityEngine;
 using Utils;
@@ -18,7 +16,7 @@ namespace UI.Factory
 
         public ScreenFactory()
         {
-            _canvas = APPCore.Instance.GetGUI.GetCanvas.transform;
+            _canvas = Managers.MContainer.Instance.GetGUI.GetCanvas.transform;
         }
 
         public LobbyScreen GetLobbyScreen()

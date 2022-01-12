@@ -1,4 +1,4 @@
-﻿using APP;
+﻿using System.Linq;
 using BaseMonoBehaviour;
 using DG.Tweening;
 using Managers;
@@ -22,15 +22,16 @@ namespace Environment
         public readonly ReactiveProperty<int> index = new ReactiveProperty<int>();
         public readonly ReactiveCommand<Color> onPaint = new ReactiveCommand<Color>();
         public readonly ReactiveCommand<int> onShowRoad = new ReactiveCommand<int>();
+        public readonly ReactiveCommand disableNeighbors = new ReactiveCommand();
 
         protected override void Enable()
         {
-            _world = APPCore.Instance.GetWorld;
+            _world = MContainer.Instance.GetWorld;
             
             _world.CollectorsColliders.Add(this);
         }
 
-        protected override void Initialize()
+        protected override void Init()
         {
             Steps = _stepTransform.GetComponentsInChildren<Step>();
             
@@ -56,6 +57,17 @@ namespace Environment
                 })
                 .AddTo(this);
 
+            disableNeighbors
+                .First()
+                .Subscribe(_ =>
+                {
+                    _world.CollectorsColliders
+                        .Where(collector => collector != this)
+                        .ToList()
+                        .ForEach(collector => collector.gameObject.layer = Layers.Deactivate);
+                })
+                .AddTo(this);
+            
             index
                 .Where(value => value == Steps.Length)
                 .First()
@@ -64,6 +76,9 @@ namespace Environment
                     gameObject.layer = Layers.Deactivate;
                     
                     _world.CollectorsColliders.Remove(this);
+                    
+                    _world.CollectorsColliders
+                        .ForEach(c => c.gameObject.layer = Layers.Collector);
                 })
                 .AddTo(this);
         }

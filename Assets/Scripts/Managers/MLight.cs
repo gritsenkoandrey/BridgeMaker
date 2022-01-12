@@ -8,9 +8,14 @@ namespace Managers
 
         public Light GetLight => _light;
 
-        protected override void First()
+        protected override void Register()
         {
-            Container.Add(typeof(MLight), this);
+            RegisterManager(this);
+        }
+        
+        protected override void Disable()
+        {
+            UnregisterManager(this);
         }
     }
 }

@@ -4,18 +4,14 @@ using UnityEngine;
 
 namespace Managers
 {
-    [DefaultExecutionOrder(1)]
     public abstract class Manager : MonoBehaviour
     {
-        public static readonly Dictionary<Type, Manager> Container = new Dictionary<Type, Manager>();
-
-        private void Awake()
-        {
-            First();
-        }
+        private static readonly Dictionary<Type, Manager> Container = new Dictionary<Type, Manager>();
 
         private void OnEnable()
         {
+            Register();
+            
             Enable();
         }
 
@@ -29,9 +25,35 @@ namespace Managers
             Init();
         }
 
-        protected virtual void First(){}
+        protected abstract void Register();
+        
         protected virtual void Init(){}
         protected virtual void Enable(){}
         protected virtual void Disable(){}
+
+        protected static void RegisterManager<T>(T manager) where T : Manager
+        {
+            if (Container.ContainsKey(typeof(T)))
+            {
+                return;
+            }
+            
+            Container.Add(typeof(T), manager);
+        }
+
+        protected static void UnregisterManager<T>(T manager) where T : Manager
+        {
+            Container.Remove(typeof(T));
+        }
+
+        public static T Resolve<T>() where T : Manager
+        {
+            if (!Container.ContainsKey(typeof(T)))
+            {
+                return null;
+            }
+            
+            return Container[typeof(T)] as T;
+        }
     }
 }
