@@ -1,24 +1,25 @@
-﻿using Managers;
+﻿using AssetPath;
+using Characters;
+using Data;
+using Levels;
+using Managers;
 using UnityEngine;
+using Utils;
 
 namespace Spawner
 {
     public sealed class SpawnCharacter : MonoBehaviour
     {
-        private MWorld _world;
-
-        private void Awake()
-        {
-            _world = MContainer.Instance.GetWorld;
-        }
-
         private void Start()
         {
-            Transform character = Instantiate(_world.CurrentLevel.Value.GetCharacter, transform.position, Quaternion.identity,
-                _world.CurrentLevel.Value.transform).transform;
+            Level level = Manager.Resolve<MWorld>().CurrentLevel.Value;
+            
+            Character prefab = CustomResources.Load<CharacterData>(DataPath.paths[DataType.Character]).GetCharacter;
+            
+            Transform character = Instantiate(prefab, transform.position, Quaternion.identity, level.transform).transform;
 
-            _world.CurrentLevel.Value.GetCamera.Follow = character;
-            _world.CurrentLevel.Value.GetCamera.LookAt = character;
+            level.GetCamera.Follow = character;
+            level.GetCamera.LookAt = character;
         }
         
         private void OnDrawGizmos()

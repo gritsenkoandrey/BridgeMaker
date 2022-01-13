@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Utils
 {
-    public static class IListExtension
+    public static class ListExtension
     {
         public static void ForEach<T>(this IList<T> source, Action<T> action)
         {

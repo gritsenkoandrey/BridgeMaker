@@ -2,7 +2,7 @@
 
 namespace AssetPath
 {
-    public class DataPath
+    public struct DataPath
     {
         public static readonly Dictionary<DataType, string> paths = new Dictionary<DataType, string>
         {
@@ -13,6 +13,14 @@ namespace AssetPath
             {
                 DataType.Canvas, "Prefabs/GUI/Canvas"
             },
+
+            {
+                DataType.Character, "Data/CharacterData"
+            },
+
+            {
+                DataType.Environment, "Data/EnvironmentData"
+            }
         };
     }
 }

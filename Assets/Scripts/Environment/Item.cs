@@ -22,19 +22,25 @@ namespace Environment
 
         protected override void Enable()
         {
-            _world = MContainer.Instance.GetWorld;
+            base.Enable();
+            
+            _world = Manager.Resolve<MWorld>();
             
             _world.ItemsColliders.Add(this);
         }
 
         protected override void Disable()
         {
+            base.Disable();
+
             _sequence.KillTween();
             _tween.KillTween();
         }
 
         protected override void Init()
         {
+            base.Init();
+            
             Transform item = transform;
 
             _tween = item
@@ -64,7 +70,7 @@ namespace Environment
                         .Join(item.DOLocalRotate(Vector3.zero, 0.5f))
                         .SetEase(Ease.Linear);
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
             
             onMove
                 .First()
@@ -92,7 +98,7 @@ namespace Environment
                     
                     collector.onPaint.Execute(_renderer.material.color);
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
         }
     }
 }

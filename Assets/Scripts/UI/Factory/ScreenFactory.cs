@@ -1,4 +1,5 @@
 ﻿using AssetPath;
+using Managers;
 using UI.Enum;
 using UnityEngine;
 using Utils;
@@ -16,7 +17,7 @@ namespace UI.Factory
 
         public ScreenFactory()
         {
-            _canvas = Managers.MContainer.Instance.GetGUI.GetCanvas.transform;
+            _canvas = Manager.Resolve<MGUI>().GetCanvas.transform;
         }
 
         public LobbyScreen GetLobbyScreen()

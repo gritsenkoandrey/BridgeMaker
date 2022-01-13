@@ -28,7 +28,7 @@ namespace UI
                             ScreenInterface.GetScreenInterface()
                                 .Execute(ScreenType.LobbyScreen);
 
-                            world.InstantiateLevel();
+                            GetWorld.CreateLevel();
                         })
                         .AddTo(screenDisposable);
                 });

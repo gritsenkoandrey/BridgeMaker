@@ -2,8 +2,10 @@
 {
     public enum DataType : byte
     {
-        None      = 0,
-        Level     = 2,
-        Canvas    = 4,
+        None        = 0,
+        Level       = 2,
+        Canvas      = 4,
+        Character   = 6,
+        Environment = 8
     }
 }

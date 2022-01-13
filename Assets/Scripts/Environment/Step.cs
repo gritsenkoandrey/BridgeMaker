@@ -12,6 +12,8 @@ namespace Environment
 
         protected override void Init()
         {
+            base.Init();
+            
             _renderer.enabled = false;
             _collider.enabled = false;
         }

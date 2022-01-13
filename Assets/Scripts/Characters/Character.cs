@@ -8,34 +8,38 @@ namespace Characters
     [RequireComponent(typeof(CharacterController), typeof(Animator))]
     public abstract class Character : BaseComponent
     {
-        protected Animator animator;
-        protected CharacterController characterController;
-
-        protected MInput input;
-        protected MWorld world;
-        protected MGame game;
+        protected Animator Animator { get; private set; }
+        protected CharacterController Controller { get; private set; }
+        protected MInput GetInput { get; private set; }
+        protected MWorld GetWorld { get; private set; }
+        protected MGame GetGame { get; private set; }
+        
 
         protected readonly CompositeDisposable characterDisposable = new CompositeDisposable();
 
         protected override void Init()
         {
-            characterController = GetComponent<CharacterController>();
-            animator = GetComponent<Animator>();
+            Controller = GetComponent<CharacterController>();
+            Animator = GetComponent<Animator>();
             
-            game.OnRoundEnd
+            GetGame.OnRoundEnd
                 .Subscribe(_ => characterDisposable.Clear())
                 .AddTo(this);
         }
 
         protected override void Enable()
         {
-            input = MContainer.Instance.GetInput;
-            world = MContainer.Instance.GetWorld;
-            game = MContainer.Instance.GetGame;
+            base.Enable();
+            
+            GetInput = Manager.Resolve<MInput>();
+            GetWorld = Manager.Resolve<MWorld>();
+            GetGame = Manager.Resolve<MGame>();
         }
 
         protected override void Disable()
         {
+            base.Disable();
+            
             characterDisposable.Clear();
         }
     }

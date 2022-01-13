@@ -3,7 +3,7 @@ using UI.Enum;
 
 namespace AssetPath
 {
-    public sealed class ScreenPath
+    public struct ScreenPath
     {
         public struct Screen
         {

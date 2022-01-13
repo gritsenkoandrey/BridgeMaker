@@ -28,15 +28,15 @@ namespace UI
             _text.DOFade(0f, 0f);
             _text.DOFade(1f, 0f).SetDelay(0.25f);
             
-            gui.GetImage.DOFade(1f, 0f);
-            gui.GetImage.DOFade(0f, 0f).SetDelay(0.25f);
+            GetGUI.GetImage.DOFade(1f, 0f);
+            GetGUI.GetImage.DOFade(0f, 0f).SetDelay(0.25f);
 
             _startButton
                 .OnClickAsObservable()
                 .First()
                 .Subscribe(_ =>
                 {
-                    game.OnRoundStart.Execute();
+                    GetGame.OnRoundStart.Execute();
                     
                     ScreenInterface.GetScreenInterface()
                         .Execute(ScreenType.GameScreen);

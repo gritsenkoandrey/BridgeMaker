@@ -16,7 +16,6 @@ namespace Managers
         public readonly ReactiveProperty<Level> CurrentLevel = new ReactiveProperty<Level>();
         
         public readonly ReactiveCollection<Item> CharacterItems = new ReactiveCollection<Item>();
-        
         public readonly ReactiveCollection<Item> ItemsColliders = new ReactiveCollection<Item>();
         public readonly ReactiveCollection<Collector> CollectorsColliders = new ReactiveCollection<Collector>();
         
@@ -31,7 +30,7 @@ namespace Managers
 
             _levelData = CustomResources.Load<LevelData>(DataPath.paths[DataType.Level]);
             
-            InstantiateLevel();
+            CreateLevel();
         }
 
         protected override void Disable()
@@ -39,11 +38,9 @@ namespace Managers
             UnregisterManager(this);
         }
 
-        public void InstantiateLevel(bool win = false)
+        public void CreateLevel(bool win = false)
         {
-            CharacterItems.Clear();
-            ItemsColliders.Clear();
-            CollectorsColliders.Clear();
+            Clear();
 
             if (CurrentLevel.Value)
             {
@@ -63,7 +60,17 @@ namespace Managers
                 }
             }
             
-            CurrentLevel.SetValueAndForceNotify(Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity));
+            CurrentLevel.SetValueAndForceNotify(SpawnLevel());
+        }
+
+        private Level SpawnLevel() => 
+            Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity);
+
+        private void Clear()
+        {
+            CharacterItems.Clear();
+            ItemsColliders.Clear();
+            CollectorsColliders.Clear();
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Environment;
-using Managers;
+﻿using AssetPath;
+using Data;
+using Environment;
 using UnityEngine;
+using Utils;
 
 namespace Spawner
 {
@@ -8,19 +10,14 @@ namespace Spawner
     {
         [SerializeField] private Color _color;
         [SerializeField] private Transform _root;
-        
-        private MWorld _world;
-
-        private void Awake()
-        {
-            _world = MContainer.Instance.GetWorld;
-        }
 
         private void Start()
         {
+            Item prefab = CustomResources.Load<EnvironmentData>(DataPath.paths[DataType.Environment]).GetItem;
+            
             for (int i = 0; i < transform.childCount; i++)
             {
-                Item item = Instantiate(_world.CurrentLevel.Value.GetItem, transform.GetChild(i).position, Quaternion.identity, _root);
+                Item item = Instantiate(prefab, transform.GetChild(i).position, Quaternion.identity, _root);
                 item.GetRenderer.material.color = _color;
             }
         }

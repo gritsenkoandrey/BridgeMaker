@@ -26,13 +26,17 @@ namespace Environment
 
         protected override void Enable()
         {
-            _world = MContainer.Instance.GetWorld;
+            base.Enable();
+            
+            _world = Manager.Resolve<MWorld>();
             
             _world.CollectorsColliders.Add(this);
         }
 
         protected override void Init()
         {
+            base.Init();
+            
             Steps = _stepTransform.GetComponentsInChildren<Step>();
             
             onShowRoad
@@ -40,7 +44,7 @@ namespace Environment
                 {
                     Steps[i].GetCollider.enabled = true;
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
 
             onPaint
                 .Where(_ => index.Value == Steps.Length)
@@ -55,7 +59,7 @@ namespace Environment
                         .SetEase(Ease.Linear)
                         .SetLoops(9, LoopType.Yoyo));
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
 
             disableNeighbors
                 .First()
@@ -64,9 +68,9 @@ namespace Environment
                     _world.CollectorsColliders
                         .Where(collector => collector != this)
                         .ToList()
-                        .ForEach(collector => collector.gameObject.layer = Layers.Deactivate);
+                        .ForEach(c => c.gameObject.layer = Layers.Deactivate);
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
             
             index
                 .Where(value => value == Steps.Length)
@@ -80,7 +84,7 @@ namespace Environment
                     _world.CollectorsColliders
                         .ForEach(c => c.gameObject.layer = Layers.Collector);
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
         }
     }
 }

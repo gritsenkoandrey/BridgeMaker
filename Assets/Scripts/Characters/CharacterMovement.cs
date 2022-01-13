@@ -10,25 +10,25 @@ namespace Characters
         {
             base.Init();
 
-            Transform character = gameObject.transform;
+            Transform character = transform;
             
-            Vector2 i = Vector2.zero;
+            Vector2 input = Vector2.zero;
             float gravity = Physics.gravity.y * 10f;
-            float speed = world.CurrentLevel.Value.GetSpeed;
+            float speed = GetWorld.CurrentLevel.Value.GetSpeed;
 
-            game.OnRoundStart
+            GetGame.OnRoundStart
                 .Subscribe(_ =>
                 {
-                    input.OnJoystickStart
-                        .Subscribe(vector => { i = Vector2.zero; })
+                    GetInput.OnJoystickStart
+                        .Subscribe(vector => { input = Vector2.zero; })
                         .AddTo(this);
 
-                    input.OnJoystickHold
-                        .Subscribe(vector => { i = vector; })
+                    GetInput.OnJoystickHold
+                        .Subscribe(vector => { input = vector; })
                         .AddTo(this);
 
-                    input.OnJoystickEnd
-                        .Subscribe(vector => { i = Vector2.zero; })
+                    GetInput.OnJoystickEnd
+                        .Subscribe(vector => { input = Vector2.zero; })
                         .AddTo(this);
                 })
                 .AddTo(this);
@@ -39,9 +39,9 @@ namespace Characters
                 {
                     Vector3 move = Vector3.zero;
 
-                    if (i.magnitude > 0.05f)
+                    if (input.magnitude > 0.1f)
                     {
-                        move = new Vector3(i.x, 0f, i.y);
+                        move = new Vector3(input.x, 0f, input.y);
 
                         character.forward = move;
 
@@ -52,12 +52,12 @@ namespace Characters
                         if (!Physics.Raycast(ray, 1f, 1 << Layers.Ground)) return;
                     }
 
-                    move.y = characterController.isGrounded ? 0f : gravity;
+                    move.y = Controller.isGrounded ? 0f : gravity;
 
-                    characterController.Move(move * speed * Time.deltaTime);
+                    Controller.Move(move * speed * Time.deltaTime);
                 })
                 .AddTo(characterDisposable)
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
         }
     }
 }

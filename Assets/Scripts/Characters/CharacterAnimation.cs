@@ -14,17 +14,17 @@ namespace Characters
                 .EveryUpdate()
                 .Subscribe(_ =>
                 {
-                    animator.SetFloat(Animations.Run, characterController.velocity.magnitude, 0.05f, Time.deltaTime);
+                    Animator.SetFloat(Animations.Run, Controller.velocity.magnitude, 0.1f, Time.deltaTime);
                 })
                 .AddTo(characterDisposable)
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
 
-            game.OnRoundEnd
+            GetGame.OnRoundEnd
                 .Subscribe(_ =>
                 {
-                    animator.SetTrigger(Animations.Victory);
+                    Animator.SetTrigger(Animations.Victory);
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
         }
     }
 }

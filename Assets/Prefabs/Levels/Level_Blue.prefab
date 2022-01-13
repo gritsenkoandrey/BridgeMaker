@@ -2088,7 +2088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9099042915559754624}
   m_Layer: 0
-  m_Name: ITEMS
+  m_Name: SPAWN_ITEMS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

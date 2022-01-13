@@ -3,13 +3,15 @@ using UnityEngine;
 
 namespace Utils
 {
-    public class Tool
+    public struct EditorUtils
     {
         [MenuItem("Tools/Clear Prefs")]
         public static void ClearPrefs()
         {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
+            
+            Debug.Log("Clear Prefs");
         }
     }
 }

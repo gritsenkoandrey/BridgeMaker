@@ -16,7 +16,7 @@ namespace UI
 
         protected override void Subscribe()
         {
-            int max = world.ItemsColliders.Count;
+            int max = GetWorld.ItemsColliders.Count;
             int cur = 0;
 
             _countItemsText.text = $"{cur}/{max}";
@@ -40,7 +40,7 @@ namespace UI
                         .SetEase(Ease.InBack)
                         .OnComplete(() =>
                         {
-                            world.InstantiateLevel();
+                            GetWorld.CreateLevel();
                             
                             ScreenInterface.GetScreenInterface()
                                 .Execute(ScreenType.LobbyScreen);
@@ -52,7 +52,7 @@ namespace UI
                 })
                 .AddTo(screenDisposable);
 
-            world.ItemsColliders
+            GetWorld.ItemsColliders
                 .ObserveRemove()
                 .Subscribe(_ =>
                 {

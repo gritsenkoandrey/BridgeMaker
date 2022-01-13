@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using UniRx;
+using UnityEngine;
 
 namespace BaseMonoBehaviour
 {
     public abstract class BaseComponent : MonoBehaviour
     {
+        protected readonly CompositeDisposable lifetimeDisposable = new CompositeDisposable();
+        
         private void OnEnable()
         {
             Enable();
@@ -21,6 +24,10 @@ namespace BaseMonoBehaviour
 
         protected virtual void Init() {}
         protected virtual void Enable() {}
-        protected virtual void Disable() {}
+
+        protected virtual void Disable()
+        {
+            lifetimeDisposable.Clear();
+        }
     }
 }
