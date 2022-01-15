@@ -4,7 +4,8 @@ using Utils;
 
 namespace Characters
 {
-    public sealed class CharacterMovement : Character
+    [RequireComponent(typeof(CharacterController))]
+    public sealed class CharacterMovement : CharacterBase
     {
         protected override void Init()
         {
@@ -12,26 +13,26 @@ namespace Characters
 
             Transform character = transform;
             
-            Vector2 input = Vector2.zero;
+            Vector2 joystick = Vector2.zero;
             float gravity = Physics.gravity.y * 10f;
-            float speed = GetWorld.CurrentLevel.Value.GetSpeed;
+            float speed = world.CurrentLevel.Value.GetSpeed;
 
-            GetGame.OnRoundStart
+            game.OnRoundStart
                 .Subscribe(_ =>
                 {
-                    GetInput.OnJoystickStart
-                        .Subscribe(vector => { input = Vector2.zero; })
+                    input.OnJoystickStart
+                        .Subscribe(vector => { joystick = Vector2.zero; })
                         .AddTo(this);
 
-                    GetInput.OnJoystickHold
-                        .Subscribe(vector => { input = vector; })
+                    input.OnJoystickHold
+                        .Subscribe(vector => { joystick = vector; })
                         .AddTo(this);
 
-                    GetInput.OnJoystickEnd
-                        .Subscribe(vector => { input = Vector2.zero; })
+                    input.OnJoystickEnd
+                        .Subscribe(vector => { joystick = Vector2.zero; })
                         .AddTo(this);
                 })
-                .AddTo(this);
+                .AddTo(lifetimeDisposable);
 
             Observable
                 .EveryUpdate()
@@ -39,9 +40,9 @@ namespace Characters
                 {
                     Vector3 move = Vector3.zero;
 
-                    if (input.magnitude > 0.1f)
+                    if (joystick.magnitude > 0.1f)
                     {
-                        move = new Vector3(input.x, 0f, input.y);
+                        move = new Vector3(joystick.x, 0f, joystick.y);
 
                         character.forward = move;
 
@@ -52,12 +53,19 @@ namespace Characters
                         if (!Physics.Raycast(ray, 1f, 1 << Layers.Ground)) return;
                     }
 
-                    move.y = Controller.isGrounded ? 0f : gravity;
+                    move.y = characterController.isGrounded ? 0f : gravity;
 
-                    Controller.Move(move * speed * Time.deltaTime);
+                    characterController.Move(move * speed * Time.deltaTime);
                 })
                 .AddTo(characterDisposable)
                 .AddTo(lifetimeDisposable);
+        }
+
+        protected override void Enable()
+        {
+            base.Enable();
+
+            characterController = GetComponent<CharacterController>();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using BaseMonoBehaviour;
 using UnityEngine;
 
-namespace Environment
+namespace Environment.Collectors
 {
     public sealed class Step : BaseComponent
     {

@@ -15,6 +15,8 @@ namespace UI
 
         protected override void Initialize()
         {
+            base.Initialize();
+            
             tween = _text
                 .DOScale(1.25f, 0.5f)
                 .SetEase(Ease.Linear)
@@ -23,13 +25,27 @@ namespace UI
 
         protected override void Subscribe()
         {
+            base.Subscribe();
+            
             tween.Play();
 
-            _text.DOFade(0f, 0f);
-            _text.DOFade(1f, 0f).SetDelay(0.25f);
-            
-            GetGUI.GetImage.DOFade(1f, 0f);
-            GetGUI.GetImage.DOFade(0f, 0f).SetDelay(0.25f);
+            _text
+                .DOFade(0f, 0f)
+                .OnComplete(() =>
+                {
+                    _text
+                        .DOFade(1f, 0f)
+                        .SetDelay(0.25f);
+                });
+
+            GetGUI.GetImage
+                .DOFade(1f, 0f)
+                .OnComplete(() =>
+                {
+                    GetGUI.GetImage
+                        .DOFade(0f, 0f)
+                        .SetDelay(0.25f);
+                });
 
             _startButton
                 .OnClickAsObservable()
@@ -46,6 +62,8 @@ namespace UI
 
         protected override void Unsubscribe()
         {
+            base.Unsubscribe();
+            
             tween.Pause();
 
             screenDisposable.Clear();

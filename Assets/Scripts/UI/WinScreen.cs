@@ -13,6 +13,8 @@ namespace UI
 
         protected override void Subscribe()
         {
+            base.Subscribe();
+            
             _nextButton.transform.localScale = Vector3.zero;
 
             _nextButton.transform

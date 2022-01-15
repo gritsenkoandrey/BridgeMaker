@@ -4,8 +4,17 @@ using Utils;
 
 namespace Characters
 {
-    public sealed class CharacterAnimation : Character
+    [RequireComponent(typeof(CharacterController), typeof(Animator))]
+    public sealed class CharacterAnimation : CharacterBase
     {
+        protected override void Enable()
+        {
+            base.Enable();
+
+            animator = GetComponent<Animator>();
+            characterController = GetComponent<CharacterController>();
+        }
+
         protected override void Init()
         {
             base.Init();
@@ -14,15 +23,16 @@ namespace Characters
                 .EveryUpdate()
                 .Subscribe(_ =>
                 {
-                    Animator.SetFloat(Animations.Run, Controller.velocity.magnitude, 0.1f, Time.deltaTime);
+                    animator.SetFloat(Animations.Run, characterController.velocity.magnitude, 0.1f, Time.deltaTime);
                 })
                 .AddTo(characterDisposable)
                 .AddTo(lifetimeDisposable);
 
-            GetGame.OnRoundEnd
+            game.OnRoundEnd
+                .Where(value => value)
                 .Subscribe(_ =>
                 {
-                    Animator.SetTrigger(Animations.Victory);
+                    animator.SetTrigger(Animations.Victory);
                 })
                 .AddTo(lifetimeDisposable);
         }

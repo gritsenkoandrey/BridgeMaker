@@ -14,12 +14,18 @@ namespace UI
         [SerializeField] private Button _restartButton;
         [SerializeField] private TextMeshProUGUI _countItemsText;
 
+        private float _max;
+        private float _cur;
+
         protected override void Subscribe()
         {
-            int max = GetWorld.ItemsColliders.Count;
-            int cur = 0;
-
-            _countItemsText.text = $"{cur}/{max}";
+            base.Subscribe();
+            
+            _max = GetWorld.ItemsColliders.Count;
+            _cur = 0f;
+            
+            _countItemsText.text = $"{_cur}/{_max}";
+            
             _countItemsText.transform.localScale = Vector3.zero;
             _countItemsText.transform
                 .DOScale(Vector3.one, 0.5f)
@@ -29,7 +35,7 @@ namespace UI
             _restartButton.transform
                 .DOScale(Vector3.one, 0.5f)
                 .SetEase(Ease.OutBack);
-            
+
             _restartButton
                 .OnClickAsObservable()
                 .First()
@@ -56,9 +62,9 @@ namespace UI
                 .ObserveRemove()
                 .Subscribe(_ =>
                 {
-                    cur++;
+                    _cur++;
                     
-                    _countItemsText.text = $"{cur}/{max}";
+                    _countItemsText.text = $"{_cur}/{_max}";
                     
                     tween.KillTween();
 
@@ -72,6 +78,8 @@ namespace UI
 
         protected override void Unsubscribe()
         {
+            base.Unsubscribe();
+            
             screenDisposable.Clear();
         }
 

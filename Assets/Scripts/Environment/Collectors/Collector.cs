@@ -6,7 +6,7 @@ using UniRx;
 using UnityEngine;
 using Utils;
 
-namespace Environment
+namespace Environment.Collectors
 {
     public sealed class Collector : BaseComponent
     {
@@ -24,15 +24,6 @@ namespace Environment
         public readonly ReactiveCommand<int> onShowRoad = new ReactiveCommand<int>();
         public readonly ReactiveCommand disableNeighbors = new ReactiveCommand();
 
-        protected override void Enable()
-        {
-            base.Enable();
-            
-            _world = Manager.Resolve<MWorld>();
-            
-            _world.CollectorsColliders.Add(this);
-        }
-
         protected override void Init()
         {
             base.Init();
@@ -47,7 +38,6 @@ namespace Environment
                 .AddTo(lifetimeDisposable);
 
             onPaint
-                .Where(_ => index.Value == Steps.Length)
                 .First()
                 .Subscribe(color =>
                 {
@@ -55,9 +45,8 @@ namespace Environment
 
                     _models
                         .ForEach(m => m.material
-                        .DOColor(color, duration)
-                        .SetEase(Ease.Linear)
-                        .SetLoops(9, LoopType.Yoyo));
+                            .DOColor(color, duration)
+                            .SetEase(Ease.Linear));
                 })
                 .AddTo(lifetimeDisposable);
 
@@ -85,6 +74,15 @@ namespace Environment
                         .ForEach(c => c.gameObject.layer = Layers.Collector);
                 })
                 .AddTo(lifetimeDisposable);
+        }
+
+        protected override void Enable()
+        {
+            base.Enable();
+            
+            _world = Manager.Resolve<MWorld>();
+            
+            _world.CollectorsColliders.Add(this);
         }
     }
 }

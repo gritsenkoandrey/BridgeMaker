@@ -1,6 +1,8 @@
 ﻿using AssetPath;
 using Environment;
 using Data;
+using Environment.Collectors;
+using Environment.Items;
 using Levels;
 using UniRx;
 using UnityEngine;

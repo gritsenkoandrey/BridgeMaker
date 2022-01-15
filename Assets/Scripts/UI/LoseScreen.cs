@@ -13,6 +13,8 @@ namespace UI
 
         protected override void Subscribe()
         {
+            base.Subscribe();
+            
             _restartButton.transform.localScale = Vector3.zero;
 
             _restartButton.transform

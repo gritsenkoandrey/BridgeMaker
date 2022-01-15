@@ -1,4 +1,4 @@
-﻿using Environment;
+﻿using Environment.Items;
 using UnityEngine;
 
 namespace Data

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
-using Environment;
+using Environment.Collectors;
+using Environment.Items;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -7,7 +8,8 @@ using Utils;
 
 namespace Characters
 {
-    public sealed class CharacterCollision : Character
+    [RequireComponent(typeof(CharacterController))]
+    public sealed class CharacterCollision : CharacterBase
     {
         [SerializeField] private Transform _root;
 
@@ -15,12 +17,12 @@ namespace Characters
         {
             base.Init();
 
-            Controller
+            characterController
                 .OnTriggerEnterAsObservable()
                 .Where(c => c.gameObject.layer == Layers.Item)
                 .Subscribe(col =>
                 {
-                    Item item = GetWorld.ItemsColliders
+                    Item item = world.ItemsColliders
                         .FirstOrDefault(i => i.gameObject.Equals(col.gameObject));
                     
                     if (!item) return;
@@ -29,19 +31,19 @@ namespace Characters
                 })
                 .AddTo(lifetimeDisposable);
             
-            Controller
+            characterController
                 .OnTriggerEnterAsObservable()
                 .Where(c => c.gameObject.layer == Layers.Collector)
                 .Subscribe(col =>
                 {
-                    Collector collector = GetWorld.CollectorsColliders
+                    Collector collector = world.CollectorsColliders
                         .FirstOrDefault(c => c.gameObject.Equals(col.gameObject));
                     
                     if (!collector) return;
 
                     collector.disableNeighbors.Execute();
 
-                    int count = GetWorld.CharacterItems.Count;
+                    int count = world.CharacterItems.Count;
                     
                     if (count == 0) return;
 
@@ -54,12 +56,29 @@ namespace Characters
 
                     for (int i = 0; i < count; i++)
                     {
-                        Item item = GetWorld.CharacterItems.GetLast();
+                        Item item = world.CharacterItems.GetLast();
 
                         item.onMove.Execute(collector);
                     }
                 })
                 .AddTo(lifetimeDisposable);
+
+            characterController
+                .OnTriggerEnterAsObservable()
+                .Where(c => c.gameObject.layer == Layers.Trap)
+                .First()
+                .Subscribe(col =>
+                {
+                    game.OnRoundEnd.Execute(false);
+                })
+                .AddTo(lifetimeDisposable);
+        }
+
+        protected override void Enable()
+        {
+            base.Enable();
+
+            characterController = GetComponent<CharacterController>();
         }
     }
 }
