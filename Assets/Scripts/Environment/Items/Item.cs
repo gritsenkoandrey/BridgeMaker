@@ -51,7 +51,6 @@ namespace Environment.Items
 
                     int index = collector.index.Value;
                     
-                    tween.KillTween();
                     sequence = sequence.RefreshSequence();
 
                     sequence
@@ -64,6 +63,33 @@ namespace Environment.Items
                     collector.index.Value++;
                     
                     collector.onPaint.Execute(ItemSettings.color);
+                })
+                .AddTo(lifetimeDisposable);
+
+            onDrop
+                .First()
+                .Subscribe(t =>
+                {
+                    Vector3 center = t.position;
+
+                    float angle = U.Random(0f, 1f) * (2f * Mathf.PI) - Mathf.PI;
+                    const float radius = 2.5f;
+                    
+                    float x = Mathf.Cos(angle) * radius;
+                    float z = Mathf.Sin(angle) * radius;
+
+                    Vector3 endPosition = new Vector3(center.x + x, center.y + 0.25f, center.z + z);
+
+                    sequence = sequence.RefreshSequence();
+                    
+                    sequence
+                        .Append(item
+                            .DOJump(endPosition, U.Random(1f, 3f), 1, 0.5f)
+                            .SetEase(Ease.InQuad))
+                        .Join(item
+                            .DORotate(Vector3.up * U.Random(-360f, 360f), 0.5f)
+                            .SetRelative()
+                            .SetEase(Ease.Linear));
                 })
                 .AddTo(lifetimeDisposable);
         }

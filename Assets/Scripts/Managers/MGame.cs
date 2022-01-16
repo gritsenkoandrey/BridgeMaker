@@ -25,7 +25,7 @@ namespace Managers
             OnRoundEnd
                 .Subscribe(value =>
                 {
-                    DOVirtual.DelayedCall(2.5f, () =>
+                    DOVirtual.DelayedCall(5f, () =>
                     {
                         ScreenInterface.GetScreenInterface()
                             .Execute(value ? ScreenType.WinScreen : ScreenType.LoseScreen);

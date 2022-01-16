@@ -1,10 +1,14 @@
 ﻿using UniRx;
 using UnityEngine;
+using Utils;
 
 namespace Characters
 {
     public sealed class CharacterDeath : CharacterBase
     {
+        [SerializeField] private Renderer _mesh;
+        [SerializeField] private ParticleSystem[] _deathFX;
+        
         protected override void Init()
         {
             base.Init();
@@ -13,7 +17,9 @@ namespace Characters
                 .Where(value  => !value)
                 .Subscribe(value =>
                 {
-                    Debug.Log("Death FX");
+                    _mesh.enabled = false;
+                    _deathFX.ForEach(fx => fx.Play());
+                    world.CharacterItems.ForEach(i => i.onDrop.Execute(transform));
                 })
                 .AddTo(lifetimeDisposable);
         }

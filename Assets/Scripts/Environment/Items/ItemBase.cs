@@ -19,6 +19,7 @@ namespace Environment.Items
         
         public readonly ReactiveCommand<Transform> onPick = new ReactiveCommand<Transform>();
         public readonly ReactiveCommand<Collector> onMove = new ReactiveCommand<Collector>();
+        public readonly ReactiveCommand<Transform> onDrop = new ReactiveCommand<Transform>();
 
         protected override void Init()
         {
