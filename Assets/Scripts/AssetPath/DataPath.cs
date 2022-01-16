@@ -4,7 +4,7 @@ namespace AssetPath
 {
     public struct DataPath
     {
-        public static readonly Dictionary<DataType, string> paths = new Dictionary<DataType, string>
+        public static readonly Dictionary<DataType, string> Paths = new Dictionary<DataType, string>
         {
             {
                 DataType.Level, "Data/LevelData"

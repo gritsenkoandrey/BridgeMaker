@@ -32,6 +32,6 @@ namespace Managers
         }
 
         private void InitCanvas() => 
-            GetCanvas = Instantiate(CustomResources.Load<Canvas>(DataPath.paths[DataType.Canvas]), gameObject.transform);
+            GetCanvas = Instantiate(CustomResources.Load<Canvas>(DataPath.Paths[DataType.Canvas]), gameObject.transform);
     }
 }

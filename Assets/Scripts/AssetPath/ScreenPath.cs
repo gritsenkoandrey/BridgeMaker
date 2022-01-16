@@ -11,7 +11,7 @@ namespace AssetPath
             public Dictionary<ScreenType, string> elements;
         }
 
-        public static readonly Dictionary<ScreenType, Screen> screens = new Dictionary<ScreenType, Screen>
+        public static readonly Dictionary<ScreenType, Screen> Screens = new Dictionary<ScreenType, Screen>
         {
             {
                 ScreenType.LobbyScreen, new Screen()

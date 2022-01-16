@@ -13,7 +13,7 @@ namespace Spawner
 
         private void Start()
         {
-            Item prefab = CustomResources.Load<EnvironmentData>(DataPath.paths[DataType.Environment]).GetItem;
+            Item prefab = CustomResources.Load<EnvironmentData>(DataPath.Paths[DataType.Environment]).GetItem;
             
             for (int i = 0; i < transform.childCount; i++)
             {

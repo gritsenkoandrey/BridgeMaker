@@ -30,7 +30,7 @@ namespace Managers
         {
             _index = PlayerPrefs.GetInt(U.Level, 0);
 
-            _levelData = CustomResources.Load<LevelData>(DataPath.paths[DataType.Level]);
+            _levelData = CustomResources.Load<LevelData>(DataPath.Paths[DataType.Level]);
             
             CreateLevel();
         }

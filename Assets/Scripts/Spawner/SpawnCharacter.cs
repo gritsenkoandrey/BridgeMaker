@@ -14,7 +14,7 @@ namespace Spawner
         {
             Level level = Manager.Resolve<MWorld>().CurrentLevel.Value;
             
-            CharacterBase prefab = CustomResources.Load<CharacterData>(DataPath.paths[DataType.Character]).GetCharacter;
+            CharacterBase prefab = CustomResources.Load<CharacterData>(DataPath.Paths[DataType.Character]).GetCharacter;
             
             Transform character = Instantiate(prefab, transform.position, Quaternion.identity, level.transform).transform;
 

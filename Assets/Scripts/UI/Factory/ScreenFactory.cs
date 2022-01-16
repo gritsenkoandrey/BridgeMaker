@@ -24,7 +24,7 @@ namespace UI.Factory
         {
             if (!_lobbyScreen)
             {
-                LobbyScreen screen = CustomResources.Load<LobbyScreen>(ScreenPath.screens[ScreenType.LobbyScreen].path);
+                LobbyScreen screen = CustomResources.Load<LobbyScreen>(ScreenPath.Screens[ScreenType.LobbyScreen].path);
                 _lobbyScreen = Object.Instantiate(screen, _canvas);
             }
 
@@ -35,7 +35,7 @@ namespace UI.Factory
         {
             if (!_gameScreen)
             {
-                GameScreen screen = CustomResources.Load<GameScreen>(ScreenPath.screens[ScreenType.GameScreen].path);
+                GameScreen screen = CustomResources.Load<GameScreen>(ScreenPath.Screens[ScreenType.GameScreen].path);
                 _gameScreen = Object.Instantiate(screen, _canvas);
             }
 
@@ -46,7 +46,7 @@ namespace UI.Factory
         {
             if (!_winScreen)
             {
-                WinScreen screen = CustomResources.Load<WinScreen>(ScreenPath.screens[ScreenType.WinScreen].path);
+                WinScreen screen = CustomResources.Load<WinScreen>(ScreenPath.Screens[ScreenType.WinScreen].path);
                 _winScreen = Object.Instantiate(screen, _canvas);
             }
 
@@ -57,7 +57,7 @@ namespace UI.Factory
         {
             if (!_loseScreen)
             {
-                LoseScreen screen = CustomResources.Load<LoseScreen>(ScreenPath.screens[ScreenType.LoseScreen].path);
+                LoseScreen screen = CustomResources.Load<LoseScreen>(ScreenPath.Screens[ScreenType.LoseScreen].path);
                 _loseScreen = Object.Instantiate(screen, _canvas);
             }
 
