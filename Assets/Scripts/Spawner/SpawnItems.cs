@@ -1,8 +1,6 @@
-﻿using AssetPath;
-using Data;
-using Environment.Items;
+﻿using Environment.Items;
+using Managers;
 using UnityEngine;
-using Utils;
 
 namespace Spawner
 {
@@ -11,13 +9,18 @@ namespace Spawner
         [SerializeField] private ItemSettings _itemSettings;
         [SerializeField] private Transform _root;
 
+        private MConfig _config;
+
+        private void Awake()
+        {
+            _config = Manager.Resolve<MConfig>();
+        }
+
         private void Start()
         {
-            Item prefab = CustomResources.Load<EnvironmentData>(DataPath.Paths[DataType.Environment]).GetItem;
-            
             for (int i = 0; i < transform.childCount; i++)
             {
-                Item item = Instantiate(prefab, transform.GetChild(i).position, Quaternion.identity, _root);
+                Item item = Instantiate(_config.EnvironmentData.GetItem, transform.GetChild(i).position, Quaternion.identity, _root);
 
                 ItemSettings temp = new ItemSettings
                 {

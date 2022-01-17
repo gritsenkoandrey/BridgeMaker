@@ -1,5 +1,4 @@
 ﻿using AssetPath;
-using Environment;
 using Data;
 using Environment.Collectors;
 using Environment.Items;
@@ -28,6 +27,8 @@ namespace Managers
 
         protected override void Init()
         {
+            base.Init();
+
             _index = PlayerPrefs.GetInt(U.Level, 0);
 
             _levelData = CustomResources.Load<LevelData>(DataPath.Paths[DataType.Level]);
@@ -37,6 +38,8 @@ namespace Managers
 
         protected override void Disable()
         {
+            base.Disable();
+
             UnregisterManager(this);
         }
 
@@ -65,11 +68,15 @@ namespace Managers
             CurrentLevel.SetValueAndForceNotify(SpawnLevel());
         }
 
-        private Level SpawnLevel() => 
-            Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity);
-
-        private void Clear()
+        private Level SpawnLevel()
         {
+            return Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity);
+        }
+
+        public override void Clear()
+        {
+            base.Clear();
+            
             CharacterItems.Clear();
             ItemsColliders.Clear();
             CollectorsColliders.Clear();

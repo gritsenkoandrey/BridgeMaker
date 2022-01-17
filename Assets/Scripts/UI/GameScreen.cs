@@ -21,26 +21,15 @@ namespace UI
         {
             base.Subscribe();
             
-            _max = GetWorld.ItemsColliders.Count;
-            _cur = 0f;
-            
-            _countItemsText.text = $"{_cur}/{_max}";
-            
-            _countItemsText.transform.localScale = Vector3.zero;
-            _countItemsText.transform
-                .DOScale(Vector3.one, 0.5f)
-                .SetEase(Ease.OutBack);
-            
-            _restartButton.transform.localScale = Vector3.zero;
-            _restartButton.transform
-                .DOScale(Vector3.one, 0.5f)
-                .SetEase(Ease.OutBack);
+            Init();
 
             _restartButton
                 .OnClickAsObservable()
                 .First()
                 .Subscribe(_ =>
                 {
+                    GetGame.Clear();
+                    
                     _restartButton.transform
                         .DOScale(Vector3.one * 0.5f, 0.5f)
                         .SetEase(Ease.InBack)
@@ -91,6 +80,26 @@ namespace UI
         public override void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        private void Init()
+        {
+            _max = GetWorld.ItemsColliders.Count;
+            _cur = 0f;
+
+            _countItemsText.text = $"{_cur}/{_max}";
+
+            _countItemsText.transform.localScale = Vector3.zero;
+            
+            _countItemsText.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack);
+
+            _restartButton.transform.localScale = Vector3.zero;
+            
+            _restartButton.transform
+                .DOScale(Vector3.one, 0.5f)
+                .SetEase(Ease.OutBack);
         }
     }
 }

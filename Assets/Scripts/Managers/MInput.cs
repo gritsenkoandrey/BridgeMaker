@@ -23,6 +23,8 @@ namespace Managers
 
         protected override void Enable()
         {
+            base.Enable();
+            
             IsEnable
                 .Subscribe(value =>
                 {
@@ -46,13 +48,23 @@ namespace Managers
 
         protected override void Disable()
         {
+            base.Disable();
+
             UnregisterManager(this);
-            _inputDisposable.Clear();
         }
         
         protected override void Init()
         {
+            base.Init();
+
             IsEnable.SetValueAndForceNotify(true);
+        }
+
+        public override void Clear()
+        {
+            base.Clear();
+            
+            _inputDisposable.Clear();
         }
 
         private void UpdateJoystick(Joystick joystick)

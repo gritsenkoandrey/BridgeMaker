@@ -8,14 +8,11 @@ namespace Levels
     public sealed class Level : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
-        [Header("Character Settings")]
-        [SerializeField] private float _speed;
 
         private MGame _game;
         private MWorld _world;
 
         public CinemachineVirtualCamera GetCamera => _cinemachineVirtualCamera;
-        public float GetSpeed => _speed;
 
         private void Awake()
         {

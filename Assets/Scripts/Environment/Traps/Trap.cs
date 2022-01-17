@@ -74,7 +74,7 @@ namespace Environment.Traps
         {
             _sequence = _sequence.RefreshSequence();
 
-            const float rotateTime = 0.5f;
+            const float rotateTime = 1f;
 
             _sequence
                 .Append(_model

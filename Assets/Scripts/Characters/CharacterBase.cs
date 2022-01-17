@@ -13,6 +13,7 @@ namespace Characters
         protected MInput input;
         protected MWorld world;
         protected MGame game;
+        protected MConfig config;
         
         protected readonly CompositeDisposable characterDisposable = new CompositeDisposable();
 
@@ -36,6 +37,7 @@ namespace Characters
             input = Manager.Resolve<MInput>();
             world = Manager.Resolve<MWorld>();
             game = Manager.Resolve<MGame>();
+            config = Manager.Resolve<MConfig>();
         }
 
         protected override void Disable()

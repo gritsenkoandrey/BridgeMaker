@@ -1,20 +1,24 @@
-﻿using AssetPath;
-using Characters;
-using Data;
+﻿using Characters;
 using Levels;
 using Managers;
 using UnityEngine;
-using Utils;
 
 namespace Spawner
 {
     public sealed class SpawnCharacter : MonoBehaviour
     {
+        private MConfig _config;
+
+        private void Awake()
+        {
+            _config = Manager.Resolve<MConfig>();
+        }
+
         private void Start()
         {
             Level level = Manager.Resolve<MWorld>().CurrentLevel.Value;
             
-            CharacterBase prefab = CustomResources.Load<CharacterData>(DataPath.Paths[DataType.Character]).GetCharacter;
+            CharacterBase prefab = _config.CharacterData.GetCharacter;
             
             Transform character = Instantiate(prefab, transform.position, Quaternion.identity, level.transform).transform;
 

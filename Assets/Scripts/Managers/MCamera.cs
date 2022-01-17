@@ -16,6 +16,8 @@ namespace Managers
         
         protected override void Disable()
         {
+            base.Disable();
+
             UnregisterManager(this);
         }
     }

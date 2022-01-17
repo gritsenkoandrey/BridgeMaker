@@ -29,23 +29,7 @@ namespace UI
             
             tween.Play();
 
-            _text
-                .DOFade(0f, 0f)
-                .OnComplete(() =>
-                {
-                    _text
-                        .DOFade(1f, 0f)
-                        .SetDelay(0.25f);
-                });
-
-            GetGUI.GetImage
-                .DOFade(1f, 0f)
-                .OnComplete(() =>
-                {
-                    GetGUI.GetImage
-                        .DOFade(0f, 0f)
-                        .SetDelay(0.25f);
-                });
+            Init();
 
             _startButton
                 .OnClickAsObservable()
@@ -77,6 +61,15 @@ namespace UI
         public override void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        private void Init()
+        {
+            _text.alpha = 0f;
+            _text.DOFade(1f, 0f).SetDelay(0.25f);
+
+            GetGUI.Fade.DOFade(1f, 0f);
+            GetGUI.Fade.DOFade(0f, 0f).SetDelay(0.25f);
         }
     }
 }

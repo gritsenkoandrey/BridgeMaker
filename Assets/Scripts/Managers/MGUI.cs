@@ -10,7 +10,7 @@ namespace Managers
     public sealed class MGUI : Manager
     {
         public Canvas GetCanvas { get; private set; }
-        public Image GetImage { get; private set; }
+        public Image Fade { get; private set; }
 
         protected override void Register()
         {
@@ -19,19 +19,24 @@ namespace Managers
         
         protected override void Disable()
         {
+            base.Disable();
+
             UnregisterManager(this);
         }
 
         protected override void Init()
         {
+            base.Init();
+
             InitCanvas();
             
-            GetImage = GetCanvas.GetComponent<Image>();
+            Fade = GetCanvas.GetComponent<Image>();
 
             ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
         }
 
         private void InitCanvas() => 
-            GetCanvas = Instantiate(CustomResources.Load<Canvas>(DataPath.Paths[DataType.Canvas]), gameObject.transform);
+            GetCanvas = Instantiate(CustomResources
+                .Load<Canvas>(DataPath.Paths[DataType.Canvas]), gameObject.transform);
     }
 }

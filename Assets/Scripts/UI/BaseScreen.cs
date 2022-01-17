@@ -13,6 +13,7 @@ namespace UI
         protected MWorld GetWorld { get; private set; }
         
         protected Tweener tween;
+        protected Sequence sequence;
 
         protected readonly CompositeDisposable screenDisposable = new CompositeDisposable();
 

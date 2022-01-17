@@ -8,5 +8,10 @@ namespace APP
         {
             DontDestroyOnLoad(this);
         }
+
+        private void Start()
+        {
+            Input.multiTouchEnabled = false;
+        }
     }
 }

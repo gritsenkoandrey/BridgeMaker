@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextButton: {fileID: 2485933372113919561}
+  _canvasGroup: {fileID: 2930619504819947691}
 --- !u!1 &2485933371973996426
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,8 +354,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
-  m_fontSizeBase: 200
+  m_fontSize: 170
+  m_fontSizeBase: 170
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -406,6 +407,7 @@ GameObject:
   - component: {fileID: 2485933372827625068}
   - component: {fileID: 2485933372827625070}
   - component: {fileID: 2485933372827625071}
+  - component: {fileID: 2930619504819947691}
   m_Layer: 0
   m_Name: ImageWin
   m_TagString: Untagged
@@ -471,6 +473,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2930619504819947691
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2485933372827625069}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &2485933372908208362
 GameObject:
   m_ObjectHideFlags: 0

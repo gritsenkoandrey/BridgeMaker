@@ -11,12 +11,12 @@ namespace Managers
         private void OnEnable()
         {
             Register();
-            
             Enable();
         }
 
         private void OnDisable()
         {
+            Clear();
             Disable();
         }
 
@@ -29,7 +29,8 @@ namespace Managers
         
         protected virtual void Init(){}
         protected virtual void Enable(){}
-        protected virtual void Disable(){}
+        protected virtual void Disable() { }
+        public virtual void Clear() {}
 
         protected static void RegisterManager<T>(T manager) where T : Manager
         {
