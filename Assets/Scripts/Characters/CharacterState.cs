@@ -14,23 +14,16 @@ namespace Characters
             base.Init();
 
             game.OnCharacterVictory
+                .Where(value => !value)
                 .First()
                 .Subscribe(value =>
                 {
-                    if (value)
-                    {
-                        animator.SetTrigger(Animations.Victory);
+                    _mesh.enabled = false;
+                    _deathFX.ForEach(fx => fx.Play());
+                    
+                    world.CharacterItems.ForEach(i => i.onDrop.Execute(transform));
 
-                        game.OnRoundEnd.Execute(true);
-                    }
-                    else
-                    {
-                        _mesh.enabled = false;
-                        _deathFX.ForEach(fx => fx.Play());
-                        world.CharacterItems.ForEach(i => i.onDrop.Execute(transform));
-
-                        game.OnRoundEnd.Execute(false);
-                    }
+                    game.OnRoundEnd.Execute(false);
                 })
                 .AddTo(lifetimeDisposable);
             

@@ -19,6 +19,16 @@ namespace Characters
         {
             base.Init();
             
+            game.OnCharacterVictory
+                .Where(value => value)
+                .First()
+                .Subscribe(value =>
+                {
+                    animator.SetTrigger(Animations.Victory);
+                    game.OnRoundEnd.Execute(true);
+                })
+                .AddTo(lifetimeDisposable);
+            
             Observable
                 .EveryUpdate()
                 .Subscribe(_ =>
