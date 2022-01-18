@@ -27,14 +27,6 @@ namespace Characters
                 })
                 .AddTo(characterDisposable)
                 .AddTo(lifetimeDisposable);
-
-            game.OnRoundEnd
-                .Where(value => value)
-                .Subscribe(_ =>
-                {
-                    animator.SetTrigger(Animations.Victory);
-                })
-                .AddTo(lifetimeDisposable);
         }
     }
 }

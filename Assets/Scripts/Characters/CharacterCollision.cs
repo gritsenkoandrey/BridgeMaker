@@ -69,7 +69,7 @@ namespace Characters
                 .First()
                 .Subscribe(col =>
                 {
-                    game.OnRoundEnd.Execute(false);
+                    game.OnCharacterVictory.Execute(false);
                 })
                 .AddTo(lifetimeDisposable);
         }

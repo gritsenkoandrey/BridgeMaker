@@ -10,6 +10,8 @@ namespace Managers
         public readonly ReactiveCommand OnRoundStart = new ReactiveCommand();
         public readonly ReactiveCommand<bool> OnRoundEnd = new ReactiveCommand<bool>();
 
+        public readonly ReactiveCommand<bool> OnCharacterVictory = new ReactiveCommand<bool>();
+
         private readonly CompositeDisposable _gameDisposable = new CompositeDisposable();
 
         protected override void Register()

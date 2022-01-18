@@ -1,6 +1,4 @@
 ﻿using Cinemachine;
-using Managers;
-using UniRx;
 using UnityEngine;
 
 namespace Levels
@@ -9,28 +7,6 @@ namespace Levels
     {
         [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
-        private MGame _game;
-        private MWorld _world;
-
         public CinemachineVirtualCamera GetCamera => _cinemachineVirtualCamera;
-
-        private void Awake()
-        {
-            _game = Manager.Resolve<MGame>();
-            _world = Manager.Resolve<MWorld>();
-        }
-
-        private void Start()
-        {
-            _world.ItemsColliders
-                .ObserveRemove()
-                .Where(_ => _world.ItemsColliders.Count == 0)
-                .First()
-                .Subscribe(_ =>
-                {
-                    _game.OnRoundEnd.Execute(true);
-                })
-                .AddTo(this);
-        }
     }
 }
