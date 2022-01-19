@@ -1,4 +1,6 @@
-﻿using BaseMonoBehaviour;
+﻿using System;
+using System.Collections.Generic;
+using BaseMonoBehaviour;
 using DG.Tweening;
 using Environment.Collectors;
 using Managers;
@@ -16,7 +18,9 @@ namespace Environment.Items
         
         protected Tweener tween;
         protected Sequence sequence;
-        
+
+        private Dictionary<ItemType, Action> _initItem = new Dictionary<ItemType, Action>();
+
         public readonly ReactiveCommand<Transform> onPick = new ReactiveCommand<Transform>();
         public readonly ReactiveCommand<Collector> onMove = new ReactiveCommand<Collector>();
         public readonly ReactiveCommand<Transform> onDrop = new ReactiveCommand<Transform>();
@@ -25,16 +29,7 @@ namespace Environment.Items
         {
             base.Init();
             
-            switch (ItemSettings.itemType)
-            {
-                case ItemType.None:
-                    break;
-                case ItemType.Stay:
-                    break;
-                case ItemType.Move:
-                    MoveAnimation();
-                    break;
-            }
+            _initItem[ItemSettings.itemType].Invoke();
         }
 
         protected override void Enable()
@@ -42,6 +37,13 @@ namespace Environment.Items
             base.Enable();
 
             world = Manager.Resolve<MWorld>();
+            
+            _initItem = new Dictionary<ItemType, Action>
+            {
+                { ItemType.None, () => {Debug.Log("None");}},
+                { ItemType.Stay, () => {Debug.Log("Stay");}},
+                { ItemType.Move, MoveAnimation}
+            };
         }
 
         protected override void Disable()

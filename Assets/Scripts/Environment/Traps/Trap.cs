@@ -1,4 +1,6 @@
-﻿using BaseMonoBehaviour;
+﻿using System;
+using System.Collections.Generic;
+using BaseMonoBehaviour;
 using DG.Tweening;
 using UnityEngine;
 using Utils;
@@ -10,70 +12,62 @@ namespace Environment.Traps
         [SerializeField] private TrapSettings _trapSettings;
         [SerializeField] private Transform _model;
 
-        private Tweener _tween;
+        private Dictionary<TrapType, Action> _initTrap = new Dictionary<TrapType, Action>();
+
         private Sequence _sequence;
         
         protected override void Init()
         {
             base.Init();
-
-            switch (_trapSettings.type)
-            {
-                case TrapType.Barrier:
-                    InitBarrier();
-                    break;
-                case TrapType.Canon:
-                    InitCanon();
-                    break;
-                case TrapType.Cylinder:
-                    InitCylinder();
-                    break;
-                case TrapType.SawHorizontal:
-                    break;
-                case TrapType.SawVertical:
-                    InitSawVertical();
-                    break;
-                case TrapType.Spikes:
-                    InitSpikes();
-                    break;
-            }
+            
+            _sequence = _sequence.RefreshSequence();
+            
+            _initTrap[_trapSettings.type].Invoke();
         }
 
         protected override void Enable()
         {
             base.Enable();
+
+            _initTrap = new Dictionary<TrapType, Action>
+            {
+                { TrapType.None, () => Debug.Log("None")},
+                { TrapType.Barrier, InitBarrier},
+                { TrapType.Canon, InitCanon},
+                { TrapType.Cylinder, InitCylinder},
+                { TrapType.SawVertical, InitSawVertical},
+                { TrapType.Spikes, InitSpikes},
+                { TrapType.SawHorizontal, InitSawHorizontal}
+            };
         }
 
         protected override void Disable()
         {
             base.Disable();
             
-            _tween.KillTween();
             _sequence.KillTween();
         }
 
         private void InitBarrier()
         {
-            _tween = _model
-                .DOLocalRotate(Vector3.up * 360f, 1f, RotateMode.WorldAxisAdd)
-                .SetEase(Ease.Linear)
-                .SetLoops(-1)
-                .SetDelay(_trapSettings.delay);
+            _sequence
+                .Append(_model
+                    .DOLocalRotate(Vector3.up * 360f, _trapSettings.duration, RotateMode.WorldAxisAdd)
+                    .SetEase(Ease.Linear))
+                .SetLoops(-1);
         }
 
         private void InitCylinder()
         {
-            _tween = _model
-                .DOLocalRotate(Vector3.up * 360f, 1f, RotateMode.WorldAxisAdd)
-                .SetEase(Ease.Linear)
-                .SetLoops(-1)
-                .SetDelay(_trapSettings.delay);
+            _sequence
+                .Append(_model
+                    .DOLocalRotate(Vector3.up * 360f, _trapSettings.duration, RotateMode.WorldAxisAdd)
+                    .SetEase(Ease.Linear))
+                .SetLoops(-1);
         }
 
         private void InitSawVertical()
         {
-            _sequence = _sequence.RefreshSequence();
-
             const float rotateTime = 1f;
 
             _sequence
@@ -100,8 +94,6 @@ namespace Environment.Traps
 
         private void InitSpikes()
         {
-            _sequence = _sequence.RefreshSequence();
-
             _sequence
                 .Append(_model.DOMove(_trapSettings.vector, _trapSettings.duration))
                 .SetRelative()
@@ -115,8 +107,6 @@ namespace Environment.Traps
 
         private void InitCanon()
         {
-            _sequence = _sequence.RefreshSequence();
-
             _sequence
                 .Append(_model.DOLocalRotate(_trapSettings.vector, _trapSettings.duration))
                 .SetRelative()
@@ -126,6 +116,15 @@ namespace Environment.Traps
                 .SetRelative()
                 .SetEase(Ease.Linear)
                 .AppendInterval(_trapSettings.delay)
+                .SetLoops(-1);
+        }
+
+        private void InitSawHorizontal()
+        {
+            _sequence
+                .Append(_model
+                    .DOLocalRotate(Vector3.up * 360f, _trapSettings.duration, RotateMode.WorldAxisAdd)
+                    .SetEase(Ease.Linear))
                 .SetLoops(-1);
         }
     }
