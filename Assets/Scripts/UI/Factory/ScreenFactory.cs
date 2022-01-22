@@ -22,44 +22,44 @@ namespace UI.Factory
 
         public LobbyScreen GetLobbyScreen()
         {
-            if (!_lobbyScreen)
-            {
-                LobbyScreen screen = CustomResources.Load<LobbyScreen>(ScreenPath.Screens[ScreenType.LobbyScreen].path);
-                _lobbyScreen = Object.Instantiate(screen, _canvas);
-            }
+            if (_lobbyScreen) return _lobbyScreen;
+            
+            LobbyScreen screen = CustomResources
+                .Load<LobbyScreen>(ScreenPath.Screens[ScreenType.LobbyScreen].path);
+            _lobbyScreen = Object.Instantiate(screen, _canvas);
 
             return _lobbyScreen;
         }
 
         public GameScreen GetGameScreen()
         {
-            if (!_gameScreen)
-            {
-                GameScreen screen = CustomResources.Load<GameScreen>(ScreenPath.Screens[ScreenType.GameScreen].path);
-                _gameScreen = Object.Instantiate(screen, _canvas);
-            }
+            if (_gameScreen) return _gameScreen;
+            
+            GameScreen screen = CustomResources
+                .Load<GameScreen>(ScreenPath.Screens[ScreenType.GameScreen].path);
+            _gameScreen = Object.Instantiate(screen, _canvas);
 
             return _gameScreen;
         }
 
         public WinScreen GetWinScreen()
         {
-            if (!_winScreen)
-            {
-                WinScreen screen = CustomResources.Load<WinScreen>(ScreenPath.Screens[ScreenType.WinScreen].path);
-                _winScreen = Object.Instantiate(screen, _canvas);
-            }
+            if (_winScreen) return _winScreen;
+            
+            WinScreen screen = CustomResources
+                .Load<WinScreen>(ScreenPath.Screens[ScreenType.WinScreen].path);
+            _winScreen = Object.Instantiate(screen, _canvas);
 
             return _winScreen;
         }
 
         public LoseScreen GetLoseScreen()
         {
-            if (!_loseScreen)
-            {
-                LoseScreen screen = CustomResources.Load<LoseScreen>(ScreenPath.Screens[ScreenType.LoseScreen].path);
-                _loseScreen = Object.Instantiate(screen, _canvas);
-            }
+            if (_loseScreen) return _loseScreen;
+            
+            LoseScreen screen = CustomResources
+                .Load<LoseScreen>(ScreenPath.Screens[ScreenType.LoseScreen].path);
+            _loseScreen = Object.Instantiate(screen, _canvas);
 
             return _loseScreen;
         }

@@ -12,12 +12,22 @@ namespace Managers
         {
             RegisterManager(this);
         }
-        
+
+        protected override void Enable()
+        {
+            base.Enable();
+        }
+
         protected override void Disable()
         {
             base.Disable();
 
             UnregisterManager(this);
+        }
+
+        protected override void Init()
+        {
+            base.Init();
         }
     }
 }

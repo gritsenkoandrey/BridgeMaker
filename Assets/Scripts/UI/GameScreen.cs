@@ -1,7 +1,5 @@
 ﻿using DG.Tweening;
 using TMPro;
-using UI.Enum;
-using UI.Factory;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,17 +26,12 @@ namespace UI
                 .First()
                 .Subscribe(_ =>
                 {
-                    GetGame.Clear();
-                    
                     _restartButton.transform
                         .DOScale(Vector3.one * 0.5f, 0.5f)
                         .SetEase(Ease.InBack)
                         .OnComplete(() =>
                         {
-                            GetWorld.CreateLevel();
-                            
-                            ScreenInterface.GetScreenInterface()
-                                .Execute(ScreenType.LobbyScreen);
+                            Game.LounchRound.Execute(false);
 
                             _restartButton.transform
                                 .DOScale(Vector3.one, 0.5f)
@@ -47,7 +40,7 @@ namespace UI
                 })
                 .AddTo(screenDisposable);
 
-            GetWorld.ItemsColliders
+            World.ItemsColliders
                 .ObserveRemove()
                 .Subscribe(_ =>
                 {
@@ -84,7 +77,7 @@ namespace UI
 
         private void Init()
         {
-            _max = GetWorld.ItemsColliders.Count;
+            _max = World.ItemsColliders.Count;
             _cur = 0f;
 
             _countItemsText.text = $"{_cur}/{_max}";

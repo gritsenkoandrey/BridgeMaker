@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Managers
@@ -8,15 +9,20 @@ namespace Managers
     {
         private static readonly Dictionary<Type, Manager> Container = new Dictionary<Type, Manager>();
 
-        private void OnEnable()
+        protected readonly CompositeDisposable managerDisposable = new CompositeDisposable();
+
+        private void Awake()
         {
             Register();
+        }
+
+        private void OnEnable()
+        {
             Enable();
         }
 
         private void OnDisable()
         {
-            Clear();
             Disable();
         }
 
@@ -26,11 +32,12 @@ namespace Managers
         }
 
         protected abstract void Register();
-        
-        protected virtual void Init(){}
-        protected virtual void Enable(){}
-        protected virtual void Disable() { }
-        public virtual void Clear() {}
+        protected virtual void Init() {}
+        protected virtual void Enable() {}
+        protected virtual void Disable()
+        {
+            managerDisposable.Clear();
+        }
 
         protected static void RegisterManager<T>(T manager) where T : Manager
         {

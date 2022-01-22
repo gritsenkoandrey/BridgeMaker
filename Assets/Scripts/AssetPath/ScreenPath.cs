@@ -18,9 +18,7 @@ namespace AssetPath
                 {
                     path = "Prefabs/GUI/LobbyScreen",
                     elements = new Dictionary<ScreenType, string>
-                    {
-                        { ScreenType.LobbyScreen, "LobbyScreen"}
-                    }
+                    { { ScreenType.LobbyScreen, "LobbyScreen"} }
                 }
             },
             {
@@ -28,9 +26,7 @@ namespace AssetPath
                 {
                     path = "Prefabs/GUI/GameScreen",
                     elements = new Dictionary<ScreenType, string>
-                    {
-                        { ScreenType.GameScreen, "GameScreen"}
-                    }
+                    { { ScreenType.GameScreen, "GameScreen"} }
                 }
             },
             {
@@ -38,9 +34,7 @@ namespace AssetPath
                 {
                     path = "Prefabs/GUI/WinScreen",
                     elements = new Dictionary<ScreenType, string>
-                    {
-                        { ScreenType.WinScreen, "WinScreen"}
-                    }
+                    { { ScreenType.WinScreen, "WinScreen"} }
                 }
             },
             {
@@ -48,9 +42,7 @@ namespace AssetPath
                 {
                     path = "Prefabs/GUI/LoseScreen",
                     elements = new Dictionary<ScreenType, string>
-                    {
-                        { ScreenType.LoseScreen, "LoseScreen"}
-                    }
+                    { { ScreenType.LoseScreen, "LoseScreen"} }
                 }
             },
         };

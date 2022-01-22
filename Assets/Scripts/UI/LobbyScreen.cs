@@ -1,7 +1,5 @@
 ﻿using DG.Tweening;
 using TMPro;
-using UI.Enum;
-using UI.Factory;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,10 +34,7 @@ namespace UI
                 .First()
                 .Subscribe(_ =>
                 {
-                    GetGame.OnRoundStart.Execute();
-                    
-                    ScreenInterface.GetScreenInterface()
-                        .Execute(ScreenType.GameScreen);
+                    Game.OnRoundStart.Execute();
                 })
                 .AddTo(screenDisposable);
         }
@@ -67,9 +62,6 @@ namespace UI
         {
             _text.alpha = 0f;
             _text.DOFade(1f, 0f).SetDelay(0.25f);
-
-            GetGUI.Fade.DOFade(1f, 0f);
-            GetGUI.Fade.DOFade(0f, 0f).SetDelay(0.25f);
         }
     }
 }

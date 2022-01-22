@@ -43,28 +43,21 @@ namespace Managers
                         _inputDisposable.Clear();
                     }
                 })
-                .AddTo(this);
+                .AddTo(managerDisposable);
         }
 
         protected override void Disable()
         {
             base.Disable();
 
+            Clear();
+            
             UnregisterManager(this);
         }
         
         protected override void Init()
         {
             base.Init();
-
-            IsEnable.SetValueAndForceNotify(true);
-        }
-
-        public override void Clear()
-        {
-            base.Clear();
-            
-            _inputDisposable.Clear();
         }
 
         private void UpdateJoystick(Joystick joystick)
@@ -98,6 +91,11 @@ namespace Managers
         private void JoystickEnd(Vector2 input)
         {
             OnJoystickEnd.SetValueAndForceNotify(input);
+        }
+
+        private void Clear()
+        {
+            _inputDisposable.Clear();
         }
     }
 }

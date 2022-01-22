@@ -16,22 +16,17 @@ namespace Characters
             Vector2 joystick = Vector2.zero;
             float gravity = Physics.gravity.y * 10f;
             float speed = config.CharacterData.GetSpeed;
+            
+            input.OnJoystickStart
+                .Subscribe(vector => joystick = Vector2.zero)
+                .AddTo(lifetimeDisposable);
 
-            game.OnRoundStart
-                .Subscribe(_ =>
-                {
-                    input.OnJoystickStart
-                        .Subscribe(vector => { joystick = Vector2.zero; })
-                        .AddTo(this);
+            input.OnJoystickHold
+                .Subscribe(vector => joystick = vector)
+                .AddTo(lifetimeDisposable);
 
-                    input.OnJoystickHold
-                        .Subscribe(vector => { joystick = vector; })
-                        .AddTo(this);
-
-                    input.OnJoystickEnd
-                        .Subscribe(vector => { joystick = Vector2.zero; })
-                        .AddTo(this);
-                })
+            input.OnJoystickEnd
+                .Subscribe(vector => joystick = Vector2.zero)
                 .AddTo(lifetimeDisposable);
 
             Observable

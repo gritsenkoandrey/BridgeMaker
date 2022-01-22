@@ -1,8 +1,9 @@
-﻿using UI.Enum;
+﻿using System;
+using UI.Enum;
 
 namespace UI.Factory
 {
-    public sealed class ScreenInterface
+    public sealed class ScreenInterface : IDisposable
     {
         private BaseScreen _currentScreen;
         private readonly ScreenFactory _screenFactory;
@@ -12,12 +13,7 @@ namespace UI.Factory
 
         public static ScreenInterface GetScreenInterface()
         {
-            if (_screenInterface != null)
-            {
-                return _screenInterface;
-            }
-
-            return _screenInterface = new ScreenInterface();
+            return _screenInterface ??= new ScreenInterface();
         }
 
         public void Execute(ScreenType screenType)
@@ -35,14 +31,11 @@ namespace UI.Factory
                 ScreenType.LoseScreen => _screenFactory.GetLoseScreen(),
                 _ => _currentScreen
             };
-
-            if (_currentScreen)
-            {
-                _currentScreen.Show();
-            }
+            
+            _currentScreen.Show();
         }
 
-        public static void Clean()
+        public void Dispose()
         {
             _screenInterface = null;
         }

@@ -6,6 +6,7 @@
         Level       = 2,
         Canvas      = 4,
         Character   = 6,
-        Environment = 8
+        Environment = 8,
+        Settings    = 10,
     }
 }

@@ -1,6 +1,4 @@
 ﻿using DG.Tweening;
-using UI.Enum;
-using UI.Factory;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,10 +22,7 @@ namespace UI
                 .First()
                 .Subscribe(_ =>
                 {
-                    ScreenInterface.GetScreenInterface()
-                        .Execute(ScreenType.LobbyScreen);
-
-                    GetWorld.CreateLevel(true);
+                    Game.LounchRound.Execute(true);
                 })
                 .AddTo(screenDisposable);
         }

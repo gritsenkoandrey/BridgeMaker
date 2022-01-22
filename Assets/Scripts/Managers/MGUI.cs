@@ -1,6 +1,4 @@
 ﻿using AssetPath;
-using UI.Enum;
-using UI.Factory;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -9,14 +7,23 @@ namespace Managers
 {
     public sealed class MGUI : Manager
     {
+        public Image GetFade { get; private set; }
         public Canvas GetCanvas { get; private set; }
-        public Image Fade { get; private set; }
 
         protected override void Register()
         {
            RegisterManager(this);
         }
-        
+
+        protected override void Enable()
+        {
+            base.Enable();
+            
+            InstantiateCanvas();
+            
+            GetFade = GetCanvas.GetComponent<Image>();
+        }
+
         protected override void Disable()
         {
             base.Disable();
@@ -27,16 +34,12 @@ namespace Managers
         protected override void Init()
         {
             base.Init();
-
-            InitCanvas();
-            
-            Fade = GetCanvas.GetComponent<Image>();
-
-            ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
         }
 
-        private void InitCanvas() => 
+        private void InstantiateCanvas()
+        {
             GetCanvas = Instantiate(CustomResources
                 .Load<Canvas>(DataPath.Paths[DataType.Canvas]), gameObject.transform);
+        }
     }
 }

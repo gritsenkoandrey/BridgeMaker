@@ -13,7 +13,17 @@ namespace Managers
         {
             RegisterManager(this);
         }
-        
+
+        protected override void Init()
+        {
+            base.Init();
+        }
+
+        protected override void Enable()
+        {
+            base.Enable();
+        }
+
         protected override void Disable()
         {
             base.Disable();

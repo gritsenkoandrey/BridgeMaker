@@ -33,7 +33,8 @@ namespace Characters
                 .EveryUpdate()
                 .Subscribe(_ =>
                 {
-                    animator.SetFloat(Animations.Run, characterController.velocity.magnitude, 0.1f, Time.deltaTime);
+                    animator.SetFloat(Animations.Run, 
+                        characterController.velocity.magnitude, 0.1f, Time.deltaTime);
                 })
                 .AddTo(characterDisposable)
                 .AddTo(lifetimeDisposable);

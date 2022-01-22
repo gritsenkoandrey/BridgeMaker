@@ -8,9 +8,8 @@ namespace UI
 {
     public abstract class BaseScreen : MonoBehaviour
     {
-        protected MGUI GetGUI { get; private set; }
-        protected MGame GetGame { get; private set; }
-        protected MWorld GetWorld { get; private set; }
+        protected MGame Game { get; private set; }
+        protected MWorld World { get; private set; }
         
         protected Tweener tween;
         protected Sequence sequence;
@@ -19,9 +18,8 @@ namespace UI
 
         private void Awake()
         {
-            GetGUI = Manager.Resolve<MGUI>();
-            GetGame = Manager.Resolve<MGame>();
-            GetWorld = Manager.Resolve<MWorld>();
+            Game = Manager.Resolve<MGame>();
+            World = Manager.Resolve<MWorld>();
         }
 
         private void OnEnable()

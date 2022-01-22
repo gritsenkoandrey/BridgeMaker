@@ -8,23 +8,20 @@ namespace Managers
     {
         public CharacterData CharacterData { get; private set; }
         public EnvironmentData EnvironmentData { get; private set; }
+        public SettingsData SettingsData { get; private set; }
         
         protected override void Register()
         {
             RegisterManager(this);
         }
 
-        protected override void Init()
-        {
-            base.Init();
-
-            CharacterData = CustomResources.Load<CharacterData>(DataPath.Paths[DataType.Character]);
-            EnvironmentData = CustomResources.Load<EnvironmentData>(DataPath.Paths[DataType.Environment]);
-        }
-
         protected override void Enable()
         {
             base.Enable();
+            
+            CharacterData = CustomResources.Load<CharacterData>(DataPath.Paths[DataType.Character]);
+            EnvironmentData = CustomResources.Load<EnvironmentData>(DataPath.Paths[DataType.Environment]);
+            SettingsData = CustomResources.Load<SettingsData>(DataPath.Paths[DataType.Settings]);
         }
 
         protected override void Disable()
@@ -34,9 +31,9 @@ namespace Managers
             UnregisterManager(this);
         }
 
-        public override void Clear()
+        protected override void Init()
         {
-            base.Clear();
+            base.Init();
         }
     }
 }

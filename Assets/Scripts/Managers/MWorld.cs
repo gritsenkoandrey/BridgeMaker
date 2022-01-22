@@ -25,15 +25,12 @@ namespace Managers
             RegisterManager(this);
         }
 
-        protected override void Init()
+        protected override void Enable()
         {
-            base.Init();
-
-            _index = PlayerPrefs.GetInt(U.Level, 0);
-
-            _levelData = CustomResources.Load<LevelData>(DataPath.Paths[DataType.Level]);
+            base.Enable();
             
-            CreateLevel();
+            _index = PlayerPrefs.GetInt(U.Level, 0);
+            _levelData = CustomResources.Load<LevelData>(DataPath.Paths[DataType.Level]);
         }
 
         protected override void Disable()
@@ -43,7 +40,12 @@ namespace Managers
             UnregisterManager(this);
         }
 
-        public void CreateLevel(bool win = false)
+        protected override void Init()
+        {
+            base.Init();
+        }
+
+        public void LoadLevel(bool isWin)
         {
             Clear();
 
@@ -51,7 +53,7 @@ namespace Managers
             {
                 Destroy(CurrentLevel.Value.gameObject);
 
-                if (win)
+                if (isWin)
                 {
                     _index++;
 
@@ -64,7 +66,7 @@ namespace Managers
                     PlayerPrefs.Save();
                 }
             }
-            
+
             CurrentLevel.SetValueAndForceNotify(SpawnLevel());
         }
 
@@ -73,10 +75,8 @@ namespace Managers
             return Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity);
         }
 
-        public override void Clear()
+        private void Clear()
         {
-            base.Clear();
-            
             CharacterItems.Clear();
             ItemsColliders.Clear();
             CollectorsColliders.Clear();
