@@ -16,7 +16,7 @@ namespace Characters
             game.OnCharacterVictory
                 .Where(value => !value)
                 .First()
-                .Subscribe(value =>
+                .Subscribe(_ =>
                 {
                     _mesh.enabled = false;
                     _deathFX.ForEach(fx => fx.Play());
@@ -33,6 +33,8 @@ namespace Characters
                 .First()
                 .Subscribe(_ =>
                 {
+                    gameObject.layer = Layers.Deactivate;
+                    
                     game.OnCharacterVictory.Execute(true);
                 })
                 .AddTo(lifetimeDisposable);

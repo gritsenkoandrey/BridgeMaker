@@ -57,8 +57,6 @@ namespace Managers
                         {
                             ScreenInterface.GetScreenInterface()
                                 .Execute(value ? ScreenType.WinScreen : ScreenType.LoseScreen);
-                            
-                            _gameDisposable.Clear();
                         })
                         .AddTo(_gameDisposable);
                     
