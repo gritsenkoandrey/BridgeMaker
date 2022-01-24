@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807777868c80421dbe2d3cc3dc2dd3ec, type: 3}
   m_Name: SettingsData
   m_EditorClassIdentifier: 
-  _timeToLose: 2
-  _timeToWin: 5
+  _timeToLose: 2.5
+  _timeToWin: 2.5

@@ -15,7 +15,7 @@ namespace Characters
             
             Vector2 joystick = Vector2.zero;
             float gravity = Physics.gravity.y * 10f;
-            float speed = config.CharacterData.GetSpeed;
+            float speed = config.CharacterData.GetCharacterSettings.speed;
             
             input.OnJoystickStart
                 .Subscribe(vector => joystick = Vector2.zero)

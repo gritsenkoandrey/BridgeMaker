@@ -41,8 +41,6 @@ namespace Characters
                     
                     if (!collector) return;
 
-                    collector.disableNeighbors.Execute();
-
                     int count = world.CharacterItems.Count;
                     
                     if (count == 0) return;

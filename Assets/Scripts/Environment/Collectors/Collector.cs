@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using BaseMonoBehaviour;
 using DG.Tweening;
+using Environment.Platforms;
 using Managers;
 using UniRx;
 using UnityEngine;
@@ -22,13 +23,14 @@ namespace Environment.Collectors
         public readonly ReactiveProperty<int> index = new ReactiveProperty<int>();
         public readonly ReactiveCommand<Color> onPaint = new ReactiveCommand<Color>();
         public readonly ReactiveCommand<int> onShowRoad = new ReactiveCommand<int>();
-        public readonly ReactiveCommand disableNeighbors = new ReactiveCommand();
 
         protected override void Init()
         {
             base.Init();
             
             Steps = _stepTransform.GetComponentsInChildren<Step>();
+
+            gameObject.layer = Layers.Deactivate;
             
             onShowRoad
                 .Subscribe(i =>
@@ -49,29 +51,31 @@ namespace Environment.Collectors
                             .SetEase(Ease.Linear));
                 })
                 .AddTo(lifetimeDisposable);
-
-            disableNeighbors
-                .First()
-                .Subscribe(_ =>
-                {
-                    _world.CollectorsColliders
-                        .Where(collector => collector != this)
-                        .ToList()
-                        .ForEach(c => c.gameObject.layer = Layers.Deactivate);
-                })
-                .AddTo(lifetimeDisposable);
             
             index
                 .Where(value => value == Steps.Length)
                 .First()
                 .Subscribe(_ =>
                 {
-                    gameObject.layer = Layers.Deactivate;
+                    _world.CollectorsColliders
+                        .ForEach(c => c.gameObject.layer = Layers.Deactivate);
                     
                     _world.CollectorsColliders.Remove(this);
-                    
-                    _world.CollectorsColliders
-                        .ForEach(c => c.gameObject.layer = Layers.Collector);
+
+                    Platform platform = _world.Platforms
+                        .OrderBy(p => p.Index)
+                        .FirstOrDefault();
+
+                    _world.Platforms.Remove(platform);
+                })
+                .AddTo(lifetimeDisposable);
+
+            _world.CharacterItems
+                .ObserveAdd()
+                .Where(_ => _world.CharacterItems.Count == 10)
+                .Subscribe(_ =>
+                {
+                    gameObject.layer = Layers.Collector;
                 })
                 .AddTo(lifetimeDisposable);
         }

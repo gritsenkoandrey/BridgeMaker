@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: CharacterData
   m_EditorClassIdentifier: 
   _character: {fileID: 3950454482962617233, guid: a5e332019a8b2ac4790b26e898cc01ee, type: 3}
-  _speed: 5
+  _characterSettings:
+    speed: 4

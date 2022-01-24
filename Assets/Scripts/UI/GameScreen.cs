@@ -12,8 +12,8 @@ namespace UI
         [SerializeField] private Button _restartButton;
         [SerializeField] private TextMeshProUGUI _countItemsText;
 
-        private float _max;
-        private float _cur;
+        private int _max;
+        private int _cur;
 
         protected override void Subscribe()
         {
@@ -40,14 +40,36 @@ namespace UI
                 })
                 .AddTo(screenDisposable);
 
+            World.CharacterItems
+                .ObserveAdd()
+                .Subscribe(_ =>
+                {
+                    RefreshCountItem();
+                })
+                .AddTo(screenDisposable);
+            
+            World.CharacterItems
+                .ObserveRemove()
+                .Subscribe(_ =>
+                {
+                    RefreshCountItem();
+                })
+                .AddTo(screenDisposable);
+
+            World.Platforms
+                .ObserveRemove()
+                .Subscribe(_ =>
+                {
+                    _max = World.Platforms.GetFirst().Count;
+                    
+                    RefreshCountItem();
+                })
+                .AddTo(screenDisposable);
+
             World.ItemsColliders
                 .ObserveRemove()
                 .Subscribe(_ =>
                 {
-                    _cur++;
-                    
-                    _countItemsText.text = $"{_cur}/{_max}";
-                    
                     tween.KillTween();
 
                     tween = _countItemsText
@@ -77,8 +99,8 @@ namespace UI
 
         private void Init()
         {
-            _max = World.ItemsColliders.Count;
-            _cur = 0f;
+            _max = World.Platforms.GetFirst().Count;
+            _cur = 0;
 
             _countItemsText.text = $"{_cur}/{_max}";
 
@@ -93,6 +115,11 @@ namespace UI
             _restartButton.transform
                 .DOScale(Vector3.one, 0.5f)
                 .SetEase(Ease.OutBack);
+        }
+
+        private void RefreshCountItem()
+        {
+            _countItemsText.text = $"{World.CharacterItems.Count}/{_max}";
         }
     }
 }

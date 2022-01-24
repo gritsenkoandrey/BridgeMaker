@@ -7,9 +7,9 @@ namespace Data
     public sealed class CharacterData : ScriptableObject
     {
         [SerializeField] private CharacterBase _character;
-        [SerializeField] private float _speed;
+        [SerializeField] private CharacterSettings _characterSettings;
 
         public CharacterBase GetCharacter => _character;
-        public float GetSpeed => _speed;
+        public CharacterSettings GetCharacterSettings => _characterSettings;
     }
 }

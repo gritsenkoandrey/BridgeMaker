@@ -2,6 +2,7 @@
 using Data;
 using Environment.Collectors;
 using Environment.Items;
+using Environment.Platforms;
 using Levels;
 using UniRx;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Managers
         
         public readonly ReactiveCollection<Item> CharacterItems = new ReactiveCollection<Item>();
         public readonly ReactiveCollection<Item> ItemsColliders = new ReactiveCollection<Item>();
+        public readonly ReactiveCollection<Platform> Platforms = new ReactiveCollection<Platform>();
         public readonly ReactiveCollection<Collector> CollectorsColliders = new ReactiveCollection<Collector>();
         
         protected override void Register()
@@ -79,6 +81,7 @@ namespace Managers
         {
             CharacterItems.Clear();
             ItemsColliders.Clear();
+            Platforms.Clear();
             CollectorsColliders.Clear();
         }
     }

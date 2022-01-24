@@ -73,7 +73,7 @@ namespace Environment.Items
                     Vector3 center = t.position;
 
                     float angle = U.Random(0f, 1f) * (2f * Mathf.PI) - Mathf.PI;
-                    const float radius = 2.5f;
+                    const float radius = 2f;
                     
                     float x = Mathf.Cos(angle) * radius;
                     float z = Mathf.Sin(angle) * radius;

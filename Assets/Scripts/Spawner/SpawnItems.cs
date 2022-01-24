@@ -1,4 +1,5 @@
 ﻿using Environment.Items;
+using Environment.Platforms;
 using Managers;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Spawner
     public sealed class SpawnItems : MonoBehaviour
     {
         [SerializeField] private ItemSettings _itemSettings;
-        [SerializeField] private Transform _root;
+        [SerializeField] private Platform _platform;
 
         private MConfig _config;
 
@@ -18,9 +19,12 @@ namespace Spawner
 
         private void Start()
         {
-            for (int i = 0; i < transform.childCount; i++)
+            _platform.Count = transform.childCount;
+            
+            for (int i = 0; i < _platform.Count; i++)
             {
-                Item item = Instantiate(_config.EnvironmentData.GetItem, transform.GetChild(i).position, Quaternion.identity, _root);
+                Item item = Instantiate(_config.EnvironmentData.GetItem, 
+                    transform.GetChild(i).position, Quaternion.identity, _platform.transform);
 
                 ItemSettings temp = new ItemSettings
                 {
