@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -56,11 +57,19 @@ namespace UI
                 })
                 .AddTo(screenDisposable);
 
+            World.CharacterItems
+                .ObserveReset()
+                .Subscribe(_ =>
+                {
+                    RefreshCountItem();
+                })
+                .AddTo(screenDisposable);
+
             World.Platforms
                 .ObserveRemove()
                 .Subscribe(_ =>
                 {
-                    _max = World.Platforms.GetFirst().Count;
+                    _max = GetMaxItemOnCurrentPlatform();
                     
                     RefreshCountItem();
                 })
@@ -74,7 +83,7 @@ namespace UI
 
                     tween = _countItemsText
                         .DOScale(1.25f, 0.2f)
-                        .SetEase(Ease.Linear)
+                        .SetEase(Ease.InSine)
                         .SetLoops(2, LoopType.Yoyo);
                 })
                 .AddTo(screenDisposable);
@@ -99,7 +108,7 @@ namespace UI
 
         private void Init()
         {
-            _max = World.Platforms.GetFirst().Count;
+            _max = GetMaxItemOnCurrentPlatform();
             _cur = 0;
 
             _countItemsText.text = $"{_cur}/{_max}";
@@ -115,6 +124,11 @@ namespace UI
             _restartButton.transform
                 .DOScale(Vector3.one, 0.5f)
                 .SetEase(Ease.OutBack);
+        }
+
+        private int GetMaxItemOnCurrentPlatform()
+        {
+            return World.Platforms.OrderBy(p => p.Index).First().Count;
         }
 
         private void RefreshCountItem()

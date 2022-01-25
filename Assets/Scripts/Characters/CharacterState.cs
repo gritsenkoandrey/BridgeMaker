@@ -23,6 +23,7 @@ namespace Characters
                     
                     world.CharacterItems.ForEach(i => i.onDrop.Execute(transform));
 
+                    world.CharacterItems.Clear();
                     game.OnRoundEnd.Execute(false);
                 })
                 .AddTo(lifetimeDisposable);

@@ -49,6 +49,7 @@ namespace UI
         
         private void Init()
         {
+            _nextButton.interactable = false;
             _nextButton.transform.localScale = Vector3.zero;
             _canvasGroup.transform.localScale = Vector3.one * 2f;
             _canvasGroup.alpha = 0f;
@@ -57,7 +58,7 @@ namespace UI
 
             sequence
                 .Append(_canvasGroup.transform
-                    .DOScale(Vector3.one, 0.25f)
+                    .DOScale(Vector3.one, 0.15f)
                     .SetEase(Ease.Linear))
                 .Join(_canvasGroup
                     .DOFade(1f, 0.1f)
@@ -66,7 +67,8 @@ namespace UI
                 {
                     _nextButton.transform
                         .DOScale(Vector3.one, 0.5f)
-                        .SetEase(Ease.OutBack);
+                        .SetEase(Ease.OutBack)
+                        .OnComplete(() => _nextButton.interactable = true);
                 });
         }
     }
