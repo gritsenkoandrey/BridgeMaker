@@ -4732,7 +4732,7 @@ GameObject:
   - component: {fileID: 19896336}
   - component: {fileID: 19971572}
   m_Layer: 0
-  m_Name: DeathExplosion
+  m_Name: FX_DeathExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

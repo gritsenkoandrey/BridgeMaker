@@ -12,18 +12,9 @@ namespace Environment.Traps
         [SerializeField] private TrapSettings _trapSettings;
         [SerializeField] private Transform _model;
 
-        private Dictionary<TrapType, Action> _initTrap = new Dictionary<TrapType, Action>();
+        private Dictionary<TrapType, Action> _initTrap;
 
         private Sequence _sequence;
-        
-        protected override void Init()
-        {
-            base.Init();
-            
-            _sequence = _sequence.RefreshSequence();
-            
-            _initTrap[_trapSettings.type].Invoke();
-        }
 
         protected override void Enable()
         {
@@ -46,6 +37,15 @@ namespace Environment.Traps
             base.Disable();
             
             _sequence.KillTween();
+        }
+
+        protected override void Init()
+        {
+            base.Init();
+            
+            _sequence = _sequence.RefreshSequence();
+            
+            _initTrap[_trapSettings.type].Invoke();
         }
 
         private void InitBarrier()

@@ -19,7 +19,7 @@ namespace Environment.Items
         protected Tweener tween;
         protected Sequence sequence;
 
-        private Dictionary<ItemType, Action> _initItem = new Dictionary<ItemType, Action>();
+        private Dictionary<ItemType, Action> _initItem;
 
         public readonly ReactiveCommand<Transform> onPick = new ReactiveCommand<Transform>();
         public readonly ReactiveCommand<Collector> onMove = new ReactiveCommand<Collector>();

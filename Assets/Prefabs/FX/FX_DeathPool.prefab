@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 19862378}
   - component: {fileID: 19982886}
   m_Layer: 0
-  m_Name: DeathPool
+  m_Name: FX_DeathPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

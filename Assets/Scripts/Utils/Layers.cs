@@ -5,7 +5,7 @@ namespace Utils
     public static class Layers
     {
         private const string LayerGround = "Ground";
-        private const string LayerPlayer = "Character";
+        private const string LayerCharacter = "Character";
         private const string LayerItem = "Item";
         private const string LayerDeactivate = "Deactivate";
         private const string LayerCollector = "Collector";
@@ -21,7 +21,7 @@ namespace Utils
         static Layers()
         {
             Ground = LayerMask.NameToLayer(LayerGround);
-            Character = LayerMask.NameToLayer(LayerPlayer);
+            Character = LayerMask.NameToLayer(LayerCharacter);
             Item = LayerMask.NameToLayer(LayerItem);
             Deactivate = LayerMask.NameToLayer(LayerDeactivate);
             Collector = LayerMask.NameToLayer(LayerCollector);

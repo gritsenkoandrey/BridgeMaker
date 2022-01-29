@@ -8,7 +8,19 @@ namespace Environment.Items
     public sealed class Item : ItemBase
     {
         [SerializeField] private Renderer _renderer;
-        
+
+        protected override void Enable()
+        {
+            base.Enable();
+
+            world.ItemsColliders.Add(this);
+        }
+
+        protected override void Disable()
+        {
+            base.Disable();
+        }
+
         protected override void Init()
         {
             base.Init();
@@ -92,18 +104,6 @@ namespace Environment.Items
                             .SetEase(Ease.Linear));
                 })
                 .AddTo(lifetimeDisposable);
-        }
-
-        protected override void Enable()
-        {
-            base.Enable();
-
-            world.ItemsColliders.Add(this);
-        }
-
-        protected override void Disable()
-        {
-            base.Disable();
         }
     }
 }

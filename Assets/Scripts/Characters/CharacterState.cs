@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using System;
+using UniRx;
 using UnityEngine;
 using Utils;
 
@@ -8,6 +9,9 @@ namespace Characters
     {
         [SerializeField] private Renderer _mesh;
         [SerializeField] private ParticleSystem[] _deathFX;
+        [SerializeField] private ParticleSystem _winFX;
+
+        private readonly CompositeDisposable _timerDisposable = new CompositeDisposable();
         
         protected override void Init()
         {
@@ -30,11 +34,28 @@ namespace Characters
             
             world.ItemsColliders
                 .ObserveRemove()
-                .Where(_ => world.ItemsColliders.Count == 0)
+                .Where(_ => world.ItemsColliders.Count == 45)
                 .First()
                 .Subscribe(_ =>
                 {
                     gameObject.layer = Layers.Deactivate;
+
+                    int count = 0;
+                    
+                    Observable
+                        .Interval(TimeSpan.FromSeconds(1f))
+                        .Subscribe(_ =>
+                        {
+                            count++;
+                            _winFX.Play();
+
+                            if (count == 3)
+                            {
+                                _timerDisposable.Clear();
+                            }
+                        })
+                        .AddTo(_timerDisposable)
+                        .AddTo(lifetimeDisposable);
                     
                     game.OnCharacterVictory.Execute(true);
                 })
