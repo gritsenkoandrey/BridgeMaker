@@ -20,6 +20,7 @@ namespace Environment.Platforms
         protected override void Enable()
         {
             base.Enable();
+            
             _world = Manager.Resolve<MWorld>();
             
             _world.Platforms.Add(this);

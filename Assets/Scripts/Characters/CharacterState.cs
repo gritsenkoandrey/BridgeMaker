@@ -34,7 +34,7 @@ namespace Characters
             
             world.ItemsColliders
                 .ObserveRemove()
-                .Where(_ => world.ItemsColliders.Count == 45)
+                .Where(_ => world.ItemsColliders.Count == 0)
                 .First()
                 .Subscribe(_ =>
                 {

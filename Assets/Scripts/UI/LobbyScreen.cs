@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using TMPro;
+using UI.Tutorials;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +9,10 @@ namespace UI
 {
     public sealed class LobbyScreen : BaseScreen
     {
+        [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private Button _startButton;
         [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private Tutorial _tutorial;
 
         protected override void Initialize()
         {
@@ -51,17 +54,24 @@ namespace UI
         public override void Show()
         {
             gameObject.SetActive(true);
+            
+            _tutorial.Show();
         }
 
         public override void Hide()
         {
             gameObject.SetActive(false);
+                        
+            _tutorial.Hide();
         }
 
         private void Init()
         {
-            _text.alpha = 0f;
-            _text.DOFade(1f, 0f).SetDelay(0.25f);
+            _canvasGroup.alpha = 0f;
+            
+            _canvasGroup
+                .DOFade(1f, 0f)
+                .SetDelay(0.25f);
         }
     }
 }

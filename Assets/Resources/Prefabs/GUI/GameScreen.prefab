@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 4972795878370413004}
   - component: {fileID: 4002533459136246306}
   - component: {fileID: 739544248595015166}
+  - component: {fileID: 4404781346456878196}
   m_Layer: 5
   m_Name: GameScreen
   m_TagString: Untagged
@@ -185,6 +186,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _restartButton: {fileID: 4500756169710322474}
   _countItemsText: {fileID: 7269105654718867229}
+--- !u!114 &4404781346456878196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3334739733941339439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ca3246b80f440b9b760d510ffbff2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4187032902665850744
 GameObject:
   m_ObjectHideFlags: 0
