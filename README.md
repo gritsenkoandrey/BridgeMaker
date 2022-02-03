@@ -1,3 +1,3 @@
-# BridgeMaker
+# Bridge Maker Game
  
-[![Watch the video]](https://youtu.be/ULsoxEO5sRI)
+ https://youtu.be/ULsoxEO5sRI
