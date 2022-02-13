@@ -32,7 +32,7 @@ namespace UI
                         .SetEase(Ease.InBack)
                         .OnComplete(() =>
                         {
-                            Game.LounchRound.Execute(false);
+                            Game.LaunchRound.Execute(false);
 
                             _restartButton.transform
                                 .DOScale(Vector3.one, 0.5f)

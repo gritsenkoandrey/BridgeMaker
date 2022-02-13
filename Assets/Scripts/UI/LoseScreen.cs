@@ -22,7 +22,7 @@ namespace UI
                 .First()
                 .Subscribe(_ =>
                 {
-                    Game.LounchRound.Execute(false);
+                    Game.LaunchRound.Execute(false);
                 })
                 .AddTo(screenDisposable);
         }

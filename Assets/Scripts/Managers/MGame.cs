@@ -3,11 +3,9 @@ using DG.Tweening;
 using UI.Enum;
 using UI.Factory;
 using UniRx;
-using UnityEngine;
 
 namespace Managers
 {
-    [DefaultExecutionOrder(100)]
     public sealed class MGame : Manager
     {
         private MConfig _config;
@@ -17,7 +15,7 @@ namespace Managers
         
         public readonly ReactiveCommand OnRoundStart = new ReactiveCommand();
         public readonly ReactiveCommand<bool> OnRoundEnd = new ReactiveCommand<bool>();
-        public readonly ReactiveCommand<bool> LounchRound = new ReactiveCommand<bool>();
+        public readonly ReactiveCommand<bool> LaunchRound = new ReactiveCommand<bool>();
 
         public readonly ReactiveCommand<bool> OnCharacterVictory = new ReactiveCommand<bool>();
 
@@ -31,11 +29,6 @@ namespace Managers
         protected override void Enable()
         {
             base.Enable();
-                        
-            _config = Resolve<MConfig>();
-            _gui = Resolve<MGUI>();
-            _world = Resolve<MWorld>();
-            _input = Resolve<MInput>();
             
             OnRoundStart
                 .Subscribe(_ =>
@@ -64,7 +57,7 @@ namespace Managers
                 })
                 .AddTo(managerDisposable);
 
-            LounchRound
+            LaunchRound
                 .Subscribe(value =>
                 {
                     ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
@@ -92,8 +85,13 @@ namespace Managers
         protected override void Init()
         {
             base.Init();
+            
+            _config = Resolve<MConfig>();
+            _gui = Resolve<MGUI>();
+            _world = Resolve<MWorld>();
+            _input = Resolve<MInput>();
 
-            LounchRound.Execute(false);
+            LaunchRound.Execute(false);
         }
 
         private void Clear()
