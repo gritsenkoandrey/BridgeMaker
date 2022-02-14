@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Managers
 {
-    public sealed class MInput : Manager
+    public sealed class MInput : BaseManager
     {
         [SerializeField] private Joystick _joystick;
         
@@ -16,14 +16,9 @@ namespace Managers
 
         private readonly CompositeDisposable _inputDisposable = new CompositeDisposable();
 
-        protected override void Register()
+        protected override void Init()
         {
-            RegisterManager(this);
-        }
-
-        protected override void Enable()
-        {
-            base.Enable();
+            base.Init();
             
             IsEnable
                 .Subscribe(value =>
@@ -43,21 +38,19 @@ namespace Managers
                         _inputDisposable.Clear();
                     }
                 })
-                .AddTo(managerDisposable);
+                .AddTo(ManagerDisposable);
         }
 
-        protected override void Disable()
+        protected override void Launch()
         {
-            base.Disable();
+            base.Launch();
+        }
 
-            Clear();
+        protected override void Clear()
+        {
+            base.Clear();
             
-            UnregisterManager(this);
-        }
-        
-        protected override void Init()
-        {
-            base.Init();
+            _inputDisposable.Clear();
         }
 
         private void UpdateJoystick(Joystick joystick)
@@ -91,11 +84,6 @@ namespace Managers
         private void JoystickEnd(Vector2 input)
         {
             OnJoystickEnd.SetValueAndForceNotify(input);
-        }
-
-        private void Clear()
-        {
-            _inputDisposable.Clear();
         }
     }
 }

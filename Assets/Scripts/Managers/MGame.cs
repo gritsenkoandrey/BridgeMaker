@@ -6,7 +6,7 @@ using UniRx;
 
 namespace Managers
 {
-    public sealed class MGame : Manager
+    public sealed class MGame : BaseManager
     {
         private MConfig _config;
         private MGUI _gui;
@@ -21,15 +21,16 @@ namespace Managers
 
         private readonly CompositeDisposable _gameDisposable = new CompositeDisposable();
 
-        protected override void Register()
-        {
-            RegisterManager(this);
-        }
 
-        protected override void Enable()
+        protected override void Init()
         {
-            base.Enable();
+            base.Init();
             
+            _config = Manager.Resolve<MConfig>();
+            _gui = Manager.Resolve<MGUI>();
+            _world = Manager.Resolve<MWorld>();
+            _input = Manager.Resolve<MInput>();
+
             OnRoundStart
                 .Subscribe(_ =>
                 {
@@ -37,7 +38,7 @@ namespace Managers
                     
                     _input.IsEnable.SetValueAndForceNotify(true);
                 })
-                .AddTo(managerDisposable);
+                .AddTo(ManagerDisposable);
             
             OnRoundEnd
                 .Subscribe(value =>
@@ -55,7 +56,7 @@ namespace Managers
                     
                     _input.IsEnable.SetValueAndForceNotify(false);
                 })
-                .AddTo(managerDisposable);
+                .AddTo(ManagerDisposable);
 
             LaunchRound
                 .Subscribe(async value =>
@@ -70,29 +71,17 @@ namespace Managers
 
                     _gui.GetFade.DOFade(0f, 0.1f).SetEase(Ease.Linear);
                 })
-                .AddTo(managerDisposable);
+                .AddTo(ManagerDisposable);
         }
 
-        protected override void Disable()
+        protected override void Launch()
         {
-            base.Disable();
+            base.Launch();
             
-            UnregisterManager(this);
-        }
-
-        protected override void Init()
-        {
-            base.Init();
-            
-            _config = Resolve<MConfig>();
-            _gui = Resolve<MGUI>();
-            _world = Resolve<MWorld>();
-            _input = Resolve<MInput>();
-
             LaunchRound.Execute(false);
         }
 
-        private void Clear()
+        protected override void Clear()
         {
             _gameDisposable.Clear();
         }

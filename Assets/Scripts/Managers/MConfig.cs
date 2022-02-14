@@ -4,36 +4,29 @@ using Utils;
 
 namespace Managers
 {
-    public sealed class MConfig : Manager
+    public sealed class MConfig : BaseManager
     {
         public CharacterData CharacterData { get; private set; }
         public EnvironmentData EnvironmentData { get; private set; }
         public SettingsData SettingsData { get; private set; }
-        
-        protected override void Register()
-        {
-            RegisterManager(this);
-        }
 
-        protected override void Enable()
+        protected override void Init()
         {
-            base.Enable();
+            base.Init();
             
             CharacterData = CustomResources.Load<CharacterData>(DataPath.Paths[DataType.Character]);
             EnvironmentData = CustomResources.Load<EnvironmentData>(DataPath.Paths[DataType.Environment]);
             SettingsData = CustomResources.Load<SettingsData>(DataPath.Paths[DataType.Settings]);
         }
 
-        protected override void Disable()
+        protected override void Launch()
         {
-            base.Disable();
-            
-            UnregisterManager(this);
+            base.Launch();
         }
 
-        protected override void Init()
+        protected override void Clear()
         {
-            base.Init();
+            base.Clear();
         }
     }
 }

@@ -2,32 +2,24 @@
 
 namespace Managers
 {
-    public sealed class MLight : Manager
+    public sealed class MLight : BaseManager
     {
         [SerializeField] private Light _light;
-
         public Light GetLight => _light;
-
-        protected override void Register()
-        {
-            RegisterManager(this);
-        }
-
-        protected override void Enable()
-        {
-            base.Enable();
-        }
-
-        protected override void Disable()
-        {
-            base.Disable();
-
-            UnregisterManager(this);
-        }
-
+        
         protected override void Init()
         {
             base.Init();
+        }
+
+        protected override void Launch()
+        {
+            base.Launch();
+        }
+
+        protected override void Clear()
+        {
+            base.Clear();
         }
     }
 }

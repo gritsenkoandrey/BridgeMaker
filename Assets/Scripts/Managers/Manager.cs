@@ -1,60 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
+using VContainer.Unity;
 
 namespace Managers
 {
-    public abstract class Manager : MonoBehaviour
+    public sealed class Manager : IInitializable, IDisposable
     {
-        private static readonly Dictionary<Type, Manager> Container = new Dictionary<Type, Manager>();
+        private readonly MCamera _camera;
+        private readonly MConfig _config;
+        private readonly MGame _game;
+        private readonly MGUI _gui;
+        private readonly MInput _input;
+        private readonly MLight _light;
+        private readonly MWorld _world;
 
-        protected readonly CompositeDisposable managerDisposable = new CompositeDisposable();
+        private static readonly Dictionary<Type, BaseManager> Container = new Dictionary<Type, BaseManager>();
 
-        private void Awake()
+        public Manager(
+            MCamera camera, 
+            MConfig config, 
+            MGame game, 
+            MGUI gui, 
+            MInput input, 
+            MLight light, 
+            MWorld world)
         {
-            Register();
+            _camera = camera;
+            _config = config;
+            _game = game;
+            _gui = gui;
+            _input = input;
+            _light = light;
+            _world = world;
         }
 
-        private void OnEnable()
-        {
-            Enable();
-        }
-
-        private void OnDisable()
-        {
-            Disable();
-        }
-
-        private void Start()
-        {
-            Init();
-        }
-
-        protected abstract void Register();
-        protected virtual void Init() {}
-        protected virtual void Enable() {}
-        protected virtual void Disable()
-        {
-            managerDisposable.Clear();
-        }
-
-        protected static void RegisterManager<T>(T manager) where T : Manager
-        {
-            if (Container.ContainsKey(typeof(T)))
-            {
-                return;
-            }
-            
-            Container.Add(typeof(T), manager);
-        }
-
-        protected static void UnregisterManager<T>(T manager) where T : Manager
-        {
-            Container.Remove(typeof(T));
-        }
-
-        public static T Resolve<T>() where T : Manager
+        public static T Resolve<T>() where T : BaseManager
         {
             if (!Container.ContainsKey(typeof(T)))
             {
@@ -62,6 +42,30 @@ namespace Managers
             }
             
             return Container[typeof(T)] as T;
+        }
+
+        public void Initialize()
+        {
+            Container.Add(typeof(MCamera), _camera);
+            Container.Add(typeof(MConfig), _config);
+            Container.Add(typeof(MGame), _game);
+            Container.Add(typeof(MGUI), _gui);
+            Container.Add(typeof(MInput), _input);
+            Container.Add(typeof(MLight), _light);
+            Container.Add(typeof(MWorld), _world);
+        }
+
+        public void Dispose()
+        {
+            Container.Clear();
+            
+            _camera.Dispose();
+            _config.Dispose();
+            _game.Dispose();
+            _gui.Dispose();
+            _input.Dispose();
+            _light.Dispose();
+            _world.Dispose();
         }
     }
 }

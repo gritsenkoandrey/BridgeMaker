@@ -5,35 +5,28 @@ using Utils;
 
 namespace Managers
 {
-    public sealed class MGUI : Manager
+    public sealed class MGUI : BaseManager
     {
         public Image GetFade { get; private set; }
         public Canvas GetCanvas { get; private set; }
 
-        protected override void Register()
+        protected override void Init()
         {
-           RegisterManager(this);
-        }
-
-        protected override void Enable()
-        {
-            base.Enable();
+            base.Init();
             
             InstantiateCanvas();
             
             GetFade = GetCanvas.GetComponent<Image>();
         }
 
-        protected override void Disable()
+        protected override void Launch()
         {
-            base.Disable();
-
-            UnregisterManager(this);
+            base.Launch();
         }
 
-        protected override void Init()
+        protected override void Clear()
         {
-            base.Init();
+            base.Clear();
         }
 
         private void InstantiateCanvas()

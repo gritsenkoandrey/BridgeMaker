@@ -12,7 +12,7 @@ using Utils;
 
 namespace Managers
 {
-    public sealed class MWorld : Manager
+    public sealed class MWorld : BaseManager
     {
         private LevelData _levelData;
         private int _index;
@@ -23,30 +23,28 @@ namespace Managers
         public readonly ReactiveCollection<Item> ItemsColliders = new ReactiveCollection<Item>();
         public readonly ReactiveCollection<Platform> Platforms = new ReactiveCollection<Platform>();
         public readonly ReactiveCollection<Collector> CollectorsColliders = new ReactiveCollection<Collector>();
-        
-        protected override void Register()
-        {
-            RegisterManager(this);
-        }
 
-        protected override void Enable()
+        protected override void Init()
         {
-            base.Enable();
+            base.Init();
             
             _index = PlayerPrefs.GetInt(U.Level, 0);
             _levelData = CustomResources.Load<LevelData>(DataPath.Paths[DataType.Level]);
         }
 
-        protected override void Disable()
+        protected override void Launch()
         {
-            base.Disable();
-
-            UnregisterManager(this);
+            base.Launch();
         }
 
-        protected override void Init()
+        protected override void Clear()
         {
-            base.Init();
+            base.Clear();
+            
+            CharacterItems.Clear();
+            ItemsColliders.Clear();
+            Platforms.Clear();
+            CollectorsColliders.Clear();
         }
 
         public async UniTask LoadLevel(bool isWin)
@@ -78,13 +76,5 @@ namespace Managers
 
         private Level SpawnLevel() => 
             Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity);
-
-        private void Clear()
-        {
-            CharacterItems.Clear();
-            ItemsColliders.Clear();
-            Platforms.Clear();
-            CollectorsColliders.Clear();
-        }
     }
 }
