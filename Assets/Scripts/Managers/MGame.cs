@@ -58,19 +58,17 @@ namespace Managers
                 .AddTo(managerDisposable);
 
             LaunchRound
-                .Subscribe(value =>
+                .Subscribe(async value =>
                 {
-                    ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
-
-                    _gui.GetFade.DOFade(1f, 0f);
-                    
-                    _gui.GetFade.DOFade(0f, 0.1f)
-                        .SetEase(Ease.Linear)
-                        .SetDelay(0.25f);
-                    
                     Clear();
                     
-                    _world.LoadLevel(value);
+                    _gui.GetFade.DOFade(1f, 0f);
+                    
+                    ScreenInterface.GetScreenInterface().Execute(ScreenType.LobbyScreen);
+
+                    await _world.LoadLevel(value);
+
+                    _gui.GetFade.DOFade(0f, 0.1f).SetEase(Ease.Linear);
                 })
                 .AddTo(managerDisposable);
         }

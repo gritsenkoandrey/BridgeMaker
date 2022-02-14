@@ -1,4 +1,6 @@
-﻿using AssetPath;
+﻿using System;
+using AssetPath;
+using Cysharp.Threading.Tasks;
 using Data;
 using Environment.Collectors;
 using Environment.Items;
@@ -47,7 +49,7 @@ namespace Managers
             base.Init();
         }
 
-        public void LoadLevel(bool isWin)
+        public async UniTask LoadLevel(bool isWin)
         {
             Clear();
 
@@ -69,13 +71,13 @@ namespace Managers
                 }
             }
 
+            await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
+            
             CurrentLevel.SetValueAndForceNotify(SpawnLevel());
         }
 
-        private Level SpawnLevel()
-        {
-            return Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity);
-        }
+        private Level SpawnLevel() => 
+            Instantiate(_levelData.GetLevels[_index], Vector3.zero, Quaternion.identity);
 
         private void Clear()
         {
