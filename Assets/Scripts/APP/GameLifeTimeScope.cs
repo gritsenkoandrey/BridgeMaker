@@ -1,5 +1,4 @@
-﻿using Characters;
-using Managers;
+﻿using Managers;
 using VContainer;
 using VContainer.Unity;
 
