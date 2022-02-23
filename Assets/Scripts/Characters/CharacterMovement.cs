@@ -1,33 +1,47 @@
-﻿using UniRx;
+﻿using Managers;
+using UniRx;
 using UnityEngine;
 using Utils;
 
 namespace Characters
 {
-    [RequireComponent(typeof(CharacterController))]
-    public sealed class CharacterMovement : CharacterBase
+    public sealed class CharacterMovement : ICharacter
     {
-        protected override void Init()
-        {
-            base.Init();
+        private readonly CharacterController _controller;
 
-            Transform character = transform;
+        private MInput _input;
+        private MConfig _config;
+
+        private readonly CompositeDisposable _disposable = new CompositeDisposable();
+
+        public CharacterMovement(CharacterController controller)
+        {
+            _controller = controller;
+        }
+        
+        public void Register()
+        {
+            _input = Manager.Resolve<MInput>();
+            _config = Manager.Resolve<MConfig>();
             
             Vector2 joystick = Vector2.zero;
-            float gravity = Physics.gravity.y * 10f;
-            float speed = config.CharacterData.GetCharacterSettings.speed;
+
+            Transform character = _controller.transform;
             
-            input.OnJoystickStart
+            float gravity = Physics.gravity.y * 10f;
+            float speed = _config.CharacterData.GetCharacterSettings.speed;
+            
+            _input.OnJoystickStart
                 .Subscribe(vector => joystick = Vector2.zero)
-                .AddTo(lifetimeDisposable);
+                .AddTo(_disposable);
 
-            input.OnJoystickHold
+            _input.OnJoystickHold
                 .Subscribe(vector => joystick = vector)
-                .AddTo(lifetimeDisposable);
+                .AddTo(_disposable);
 
-            input.OnJoystickEnd
+            _input.OnJoystickEnd
                 .Subscribe(vector => joystick = Vector2.zero)
-                .AddTo(lifetimeDisposable);
+                .AddTo(_disposable);
 
             Observable
                 .EveryUpdate()
@@ -45,22 +59,19 @@ namespace Characters
 
                         Ray ray = new Ray { origin = next, direction = Vector3.down };
 
-                        if (!Physics.Raycast(ray, 1f, 1 << Layers.Ground)) return;
+                        if (!Physics.Raycast(ray, 1f, Layers.Ground)) return;
                     }
 
-                    move.y = characterController.isGrounded ? 0f : gravity;
+                    move.y = _controller.isGrounded ? 0f : gravity;
 
-                    characterController.Move(move * speed * Time.deltaTime);
+                    _controller.Move(move * speed * Time.deltaTime);
                 })
-                .AddTo(characterDisposable)
-                .AddTo(lifetimeDisposable);
+                .AddTo(_disposable);
         }
 
-        protected override void Enable()
+        public void Unregistered()
         {
-            base.Enable();
-
-            characterController = GetComponent<CharacterController>();
+            _disposable.Clear();
         }
     }
 }

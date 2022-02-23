@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Environment.Platforms
 {
-    public sealed class Platform : BaseComponent
+    public sealed class Platform : BaseComponent, IPlatform
     {
         [SerializeField] private int _index;
         private MWorld _world;
 
         public int Index => _index;
-        [HideInInspector] public int Count;
+        public int Count { get; private set; }
         
         protected override void Init()
         {
@@ -29,6 +29,11 @@ namespace Environment.Platforms
         protected override void Disable()
         {
             base.Disable();
+        }
+
+        public void SetCountItems(int count)
+        {
+            Count = count;
         }
     }
 }

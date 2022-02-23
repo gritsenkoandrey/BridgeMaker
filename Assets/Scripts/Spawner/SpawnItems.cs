@@ -19,7 +19,7 @@ namespace Spawner
 
         private void Start()
         {
-            _platform.Count = transform.childCount;
+            _platform.SetCountItems(transform.childCount);
             
             for (int i = 0; i < _platform.Count; i++)
             {

@@ -18,12 +18,11 @@ namespace Spawner
         {
             Level level = Manager.Resolve<MWorld>().CurrentLevel.Value;
             
-            CharacterBase prefab = _config.CharacterData.GetCharacter;
-            
-            Transform character = Instantiate(prefab, transform.position, Quaternion.identity, level.transform).transform;
+            Character character = Instantiate(_config.CharacterData.GetCharacter, transform.position, Quaternion.identity, level.transform);
+            character.Construct();
 
-            level.GetCamera.Follow = character;
-            level.GetCamera.LookAt = character;
+            level.GetCamera.Follow = character.transform;
+            level.GetCamera.LookAt = character.transform;
         }
         
         private void OnDrawGizmos()

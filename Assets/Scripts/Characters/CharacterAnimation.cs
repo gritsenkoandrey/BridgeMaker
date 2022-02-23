@@ -4,40 +4,34 @@ using Utils;
 
 namespace Characters
 {
-    [RequireComponent(typeof(CharacterController), typeof(Animator))]
-    public sealed class CharacterAnimation : CharacterBase
+    public sealed class CharacterAnimation : ICharacter
     {
-        protected override void Enable()
-        {
-            base.Enable();
+        private readonly CharacterController _controller;
+        private readonly Animator _animator;
 
-            animator = GetComponent<Animator>();
-            characterController = GetComponent<CharacterController>();
+        private readonly CompositeDisposable _disposable = new CompositeDisposable();
+
+        public CharacterAnimation(CharacterController controller, Animator animator)
+        {
+            _controller = controller;
+            _animator = animator;
         }
 
-        protected override void Init()
+        public void Register()
         {
-            base.Init();
-            
-            game.OnCharacterVictory
-                .Where(value => value)
-                .First()
-                .Subscribe(value =>
-                {
-                    animator.SetTrigger(Animations.Victory);
-                    game.OnRoundEnd.Execute(true);
-                })
-                .AddTo(lifetimeDisposable);
-            
             Observable
                 .EveryUpdate()
                 .Subscribe(_ =>
                 {
-                    animator.SetFloat(Animations.Run, 
-                        characterController.velocity.magnitude, 0.1f, Time.deltaTime);
+                    _animator.SetFloat(Animations.Run,
+                        _controller.velocity.magnitude, 0.1f, Time.deltaTime);
                 })
-                .AddTo(characterDisposable)
-                .AddTo(lifetimeDisposable);
+                .AddTo(_disposable);
+        }
+
+        public void Unregistered()
+        {
+            _disposable.Clear();
         }
     }
 }

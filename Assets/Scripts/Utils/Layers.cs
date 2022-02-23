@@ -20,7 +20,8 @@ namespace Utils
 
         static Layers()
         {
-            Ground = LayerMask.NameToLayer(LayerGround);
+            Ground = LayerMask.GetMask(LayerGround);
+            
             Character = LayerMask.NameToLayer(LayerCharacter);
             Item = LayerMask.NameToLayer(LayerItem);
             Deactivate = LayerMask.NameToLayer(LayerDeactivate);

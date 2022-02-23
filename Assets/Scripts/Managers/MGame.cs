@@ -17,8 +17,6 @@ namespace Managers
         public readonly ReactiveCommand<bool> OnRoundEnd = new ReactiveCommand<bool>();
         public readonly ReactiveCommand<bool> LaunchRound = new ReactiveCommand<bool>();
 
-        public readonly ReactiveCommand<bool> OnCharacterVictory = new ReactiveCommand<bool>();
-
         private readonly CompositeDisposable _gameDisposable = new CompositeDisposable();
 
 

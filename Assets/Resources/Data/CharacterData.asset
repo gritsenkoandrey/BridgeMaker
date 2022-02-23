@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a68c22b9abe4a96be4d6beb1d33d0f6, type: 3}
   m_Name: CharacterData
   m_EditorClassIdentifier: 
-  _character: {fileID: 3950454482962617233, guid: a5e332019a8b2ac4790b26e898cc01ee, type: 3}
+  _character: {fileID: 5730928363493125654, guid: a5e332019a8b2ac4790b26e898cc01ee, type: 3}
   _characterSettings:
     speed: 4
