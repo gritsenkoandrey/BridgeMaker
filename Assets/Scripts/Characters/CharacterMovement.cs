@@ -11,6 +11,7 @@ namespace Characters
 
         private MInput _input;
         private MConfig _config;
+        private MCamera _camera;
 
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
 
@@ -23,11 +24,13 @@ namespace Characters
         {
             _input = Manager.Resolve<MInput>();
             _config = Manager.Resolve<MConfig>();
+            _camera = Manager.Resolve<MCamera>();
             
             Vector2 joystick = Vector2.zero;
 
             Transform character = _controller.transform;
             
+            float currentVelocity = default;
             float gravity = Physics.gravity.y * 10f;
             float speed = _config.CharacterData.GetCharacterSettings.speed;
             
@@ -51,9 +54,12 @@ namespace Characters
 
                     if (joystick.magnitude > 0.1f)
                     {
-                        move = new Vector3(joystick.x, 0f, joystick.y);
+                        float angle = Mathf.Atan2(joystick.x, joystick.y) * Mathf.Rad2Deg + _camera.GetCameraTransform.eulerAngles.y;
+                        float smoothAngle = Mathf.SmoothDampAngle(character.eulerAngles.y, angle, ref currentVelocity, 0.05f);
+                        
+                        character.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
 
-                        character.forward = move;
+                        move = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
                         Vector3 next = character.position + move * speed * Time.deltaTime;
 

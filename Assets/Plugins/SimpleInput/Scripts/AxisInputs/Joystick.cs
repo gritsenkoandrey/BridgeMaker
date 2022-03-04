@@ -53,9 +53,14 @@ namespace SimpleInputNamespace
 		private Vector2 m_value = Vector2.zero;
 		public Vector2 Value { get { return m_value; } }
 
+		private RectTransform _joystickStartPos;
+
 		private void Awake()
 		{
 			joystickTR = (RectTransform) transform;
+
+			_joystickStartPos = joystickTR;
+			
 			thumbTR = thumb.rectTransform;
 			background = GetComponent<Graphic>();
 
@@ -145,11 +150,13 @@ namespace SimpleInputNamespace
 
 			if( isDynamicJoystick )
 			{
-				pointerInitialPos = Vector2.zero;
+				//pointerInitialPos = Vector2.zero;
+				// Vector3 joystickPos;
+				// RectTransformUtility.ScreenPointToWorldPointInRectangle( dynamicJoystickMovementArea, eventData.position, eventData.pressEventCamera, out joystickPos );
+				// joystickTR.position = joystickPos;
 
-				Vector3 joystickPos;
-				RectTransformUtility.ScreenPointToWorldPointInRectangle( dynamicJoystickMovementArea, eventData.position, eventData.pressEventCamera, out joystickPos );
-				joystickTR.position = joystickPos;
+				pointerInitialPos = eventData.position;
+				joystickTR.position = _joystickStartPos.position;
 			}
 			else
 				RectTransformUtility.ScreenPointToLocalPointInRectangle( joystickTR, eventData.position, eventData.pressEventCamera, out pointerInitialPos );
@@ -158,8 +165,10 @@ namespace SimpleInputNamespace
 		public void OnDrag( PointerEventData eventData )
 		{
 			Vector2 pointerPos;
-			RectTransformUtility.ScreenPointToLocalPointInRectangle( joystickTR, eventData.position, eventData.pressEventCamera, out pointerPos );
+			//RectTransformUtility.ScreenPointToLocalPointInRectangle( joystickTR, eventData.position, eventData.pressEventCamera, out pointerPos );
 
+			pointerPos = eventData.position;
+			
 			Vector2 direction = pointerPos - pointerInitialPos;
 			if( movementAxes == MovementAxes.X )
 				direction.y = 0f;
@@ -217,9 +226,18 @@ namespace SimpleInputNamespace
 
 			if( background )
 			{
-				c = background.color;
-				c.a = opacity;
-				background.color = c;
+				if (joystickHeld)
+				{
+					c = background.color;
+					c.a = 0.1f;
+					background.color = c;
+				}
+				else
+				{
+					c = background.color;
+					c.a = 0f;
+					background.color = c;
+				}
 			}
 		}
 	}

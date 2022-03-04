@@ -130,14 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 450343126, guid: 6e3fbf1b11b8b4b46a4432ebb5eb0971, type: 3}
-      propertyPath: autoInjectGameObjects.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 450343126, guid: 6e3fbf1b11b8b4b46a4432ebb5eb0971, type: 3}
-      propertyPath: autoInjectGameObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 3950454482962617198, guid: a5e332019a8b2ac4790b26e898cc01ee, type: 3}
     - target: {fileID: 4158679688102029838, guid: 6e3fbf1b11b8b4b46a4432ebb5eb0971, type: 3}
       propertyPath: m_Name
       value: APP
